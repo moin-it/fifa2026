@@ -1,0 +1,28 @@
+{
+  "name": "FIFA 2026 বাংলাদেশ",
+  "short_name": "FIFA 2026",
+  "description": "FIFA World Cup 2026 বাংলাদেশ সময় শিডিউল",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#0a1628",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/26bd.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/26bd.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/144x144/26bd.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ]
+}
