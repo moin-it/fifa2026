@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#0a1628">
 <meta name="description" content="FIFA World Cup 2026 - বাংলাদেশ সময় অনুযায়ী সম্পূর্ণ শিডিউল">
 <title>⚽ FIFA 2026 – বাংলাদেশ শিডিউল</title>
-<link rel="manifest" href="./manifest.json">
+<link rel="manifest" href="#" id="manifest-link">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -473,6 +473,95 @@ body {
 
 .pb-nav { padding-bottom: 70px; }
 
+/* RESULT CARD SCORE */
+.result-score-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.result-goal {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--gold);
+  line-height: 1;
+  min-width: 22px;
+  text-align: center;
+}
+.result-dash {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--muted);
+  line-height: 1;
+}
+.result-draw-badge {
+  font-size: 10px;
+  background: #2a4060;
+  color: var(--muted);
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-align: center;
+  margin-top: 3px;
+}
+.winner-badge {
+  font-size: 10px;
+  background: linear-gradient(135deg, #1a4a20, #0d3010);
+  color: var(--green);
+  border: 1px solid var(--green);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+.winner-team {
+  position: relative;
+}
+.winner-team .team-name {
+  color: var(--green) !important;
+  font-weight: 700;
+}
+.winner-team .team-flag {
+  filter: drop-shadow(0 0 6px rgba(0,200,83,0.5));
+}
+
+/* WATCH LINKS */
+.watch-links-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.watch-links-title {
+  font-family: 'Tiro Bangla', serif;
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.watch-links-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.watch-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.watch-link-btn:hover { transform: translateY(-1px); filter: brightness(1.15); }
+.watch-link-btn.tsports { background: #c8001e; color: #fff; }
+.watch-link-btn.youtube { background: #ff0000; color: #fff; }
+.watch-link-btn.toffee2 { background: #00b894; color: #fff; }
+.watch-link-btn.bioscope { background: #0066cc; color: #fff; }
+
 /* MODAL */
 .modal-overlay {
   position: fixed; inset: 0;
@@ -753,6 +842,20 @@ body {
 
   <!-- RESULTS PAGE -->
   <div class="page" id="page-results">
+    <div class="filter-bar" style="margin-bottom:12px;">
+      <select id="resultTeamFilter" onchange="renderResults()">
+        <option value="">🌍 সব দেশ</option>
+      </select>
+      <select id="resultStageFilter" onchange="renderResults()">
+        <option value="">🏟️ সব পর্যায়</option>
+        <option value="Group">গ্রুপ পর্যায়</option>
+        <option value="R32">রাউন্ড অফ ৩২</option>
+        <option value="R16">রাউন্ড অফ ১৬</option>
+        <option value="QF">কোয়ার্টার ফাইনাল</option>
+        <option value="SF">সেমি ফাইনাল</option>
+        <option value="Final">ফাইনাল</option>
+      </select>
+    </div>
     <div id="resultList"></div>
   </div>
 
@@ -969,7 +1072,10 @@ const MATCHES = [
 ];
 
 // Simulated results for past/live matches
-const RESULTS = {};
+const RESULTS = {
+  1: { score: '2 – 1' },   // Mexico vs South Africa → Mexico wins
+  2: { score: '0 – 0' },   // South Korea vs Czechia → Draw
+};
 
 // ============================================================
 // STATE
@@ -1127,8 +1233,81 @@ function buildCard(m) {
 
 function watchLive(id) {
   // Open T Sports live (official BD broadcaster)
-  window.open('https://www.tsports.tv/', '_blank');
+  window.open('https://www.tsports.com.bd/live-tv', '_blank');
   showToast('📺 T Sports-এ লাইভ দেখুন!');
+}
+
+// ============================================================
+// RESULT CARD – shows score with winner highlight
+// ============================================================
+function buildResultCard(m) {
+  const fav = isFav(m.id);
+  const f1 = FLAGS[m.team1] || '🏳️';
+  const f2 = FLAGS[m.team2] || '🏳️';
+  const isTBD = m.team1 === 'TBD';
+  const result = RESULTS[m.id];
+
+  let scoreHtml = '';
+  let winner = null; // 1, 2, or 'draw'
+  let t1Class = '', t2Class = '';
+
+  if (result && result.score) {
+    const parts = result.score.split(/\s*[–\-]\s*/);
+    const g1 = parseInt(parts[0]);
+    const g2 = parseInt(parts[1]);
+    if (!isNaN(g1) && !isNaN(g2)) {
+      if (g1 > g2) winner = 1;
+      else if (g2 > g1) winner = 2;
+      else winner = 'draw';
+    }
+    const s1Style = winner === 1 ? 'color:var(--green);' : winner === 2 ? 'color:var(--muted);' : '';
+    const s2Style = winner === 2 ? 'color:var(--green);' : winner === 1 ? 'color:var(--muted);' : '';
+    scoreHtml = `<div class="result-score-wrap">
+      <span class="result-goal" style="${s1Style}">${g1}</span>
+      <span class="result-dash">–</span>
+      <span class="result-goal" style="${s2Style}">${g2}</span>
+    </div>
+    ${winner === 'draw' ? '<div class="result-draw-badge">ড্র</div>' : ''}
+    ${result.pens ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">(পেনাল্টি: ${result.pens})</div>` : ''}`;
+  } else {
+    scoreHtml = `<div class="result-score-wrap"><span class="result-goal" style="color:var(--muted);">?</span><span class="result-dash">–</span><span class="result-goal" style="color:var(--muted);">?</span></div>`;
+  }
+
+  if (winner === 1) t1Class = 'winner-team';
+  if (winner === 2) t2Class = 'winner-team';
+
+  const nameClass = m.team1.length > 10 ? 'team-name small' : 'team-name';
+
+  return `
+  <div class="match-card finished result-card ${fav ? 'favorite' : ''}" id="card-${m.id}">
+    <div class="match-top">
+      <span class="match-date-badge">${fmtDate(m.date)}</span>
+      ${m.group ? `<span class="match-group">গ্রুপ ${m.group}</span>` : `<span class="match-group">${getStageName(m.stage)}</span>`}
+      <span class="finished-badge">✓ শেষ</span>
+      ${winner === 1 ? `<span class="winner-badge">🏆 ${m.team1}</span>` : winner === 2 ? `<span class="winner-badge">🏆 ${m.team2}</span>` : winner === 'draw' ? '' : ''}
+    </div>
+    <div class="match-body">
+      <div class="team ${t1Class}">
+        <span class="team-flag">${f1}</span>
+        <div class="team-info">
+          <div class="${nameClass}">${isTBD ? 'অনির্ধারিত' : m.team1}</div>
+        </div>
+      </div>
+      <div class="vs-block">${scoreHtml}</div>
+      <div class="team right ${t2Class}">
+        <span class="team-flag">${f2}</span>
+        <div class="team-info">
+          <div class="${nameClass}">${isTBD ? 'অনির্ধারিত' : m.team2}</div>
+        </div>
+      </div>
+    </div>
+    <div class="match-footer">
+      <span class="venue">📍 ${m.venue}</span>
+      <div class="match-actions">
+        ${!isTBD ? `<button class="btn-sm btn-fav ${fav ? 'active' : ''}" onclick="toggleFav(${m.id})">${fav ? '⭐ ফেভারিট' : '☆ ফেভারিট'}</button>` : ''}
+      </div>
+    </div>
+  </div>`;
 }
 
 // ============================================================
@@ -1197,13 +1376,22 @@ function renderFavorites() {
 
 function renderResults() {
   const el = document.getElementById('resultList');
-  const finished = MATCHES.filter(m => getMatchStatus(m) === 'finished');
+  const teamF = document.getElementById('resultTeamFilter') ? document.getElementById('resultTeamFilter').value : '';
+  const stageF = document.getElementById('resultStageFilter') ? document.getElementById('resultStageFilter').value : '';
+  let finished = MATCHES.filter(m => getMatchStatus(m) === 'finished');
+  if (teamF) finished = finished.filter(m => m.team1 === teamF || m.team2 === teamF);
+  if (stageF) finished = finished.filter(m => m.stage === stageF);
   if (finished.length === 0) {
-    el.innerHTML = `<div class="empty-state">এখনো কোনো ম্যাচ শেষ হয়নি।<br>টুর্নামেন্ট শুরু হলে এখানে রেজাল্ট দেখা যাবে!</div>`;
+    const allFinished = MATCHES.filter(m => getMatchStatus(m) === 'finished');
+    if (allFinished.length === 0) {
+      el.innerHTML = `<div class="empty-state">এখনো কোনো ম্যাচ শেষ হয়নি।<br>টুর্নামেন্ট শুরু হলে এখানে রেজাল্ট দেখা যাবে!</div>`;
+    } else {
+      el.innerHTML = `<div class="empty-state">এই ফিল্টারে কোনো রেজাল্ট নেই।</div>`;
+    }
     return;
   }
   let html = `<div class="section-title">সম্পন্ন ম্যাচ <span class="count-badge">${finished.length}টি</span></div>`;
-  [...finished].reverse().forEach(m => html += buildCard(m));
+  [...finished].reverse().forEach(m => html += buildResultCard(m));
   el.innerHTML = html;
 }
 
@@ -1211,10 +1399,47 @@ function renderLive() {
   const el = document.getElementById('liveList');
   const live = MATCHES.filter(m => getMatchStatus(m) === 'live');
   if (live.length === 0) {
-    el.innerHTML = `<div class="empty-state">এই মুহূর্তে কোনো ম্যাচ চলছে না।<br><br>📺 Live শুরু হলে এখানে দেখা যাবে!</div>`;
+    el.innerHTML = `<div class="empty-state">এই মুহূর্তে কোনো ম্যাচ চলছে না।<br><br>📺 Live শুরু হলে এখানে দেখা যাবে!</div>
+    <div class="watch-links-card">
+      <div class="watch-links-title">📺 কোথায় দেখবেন?</div>
+      <div class="watch-links-grid">
+        <a href="https://www.tsports.com.bd/live-tv" target="_blank" class="watch-link-btn tsports">
+          <span>🎬</span> T Sports Live
+        </a>
+        <a href="https://www.youtube.com/@TSportsbd/streams" target="_blank" class="watch-link-btn youtube">
+          <span>▶️</span> T Sports YouTube
+        </a>
+        <a href="https://www.toffee.live/" target="_blank" class="watch-link-btn toffee2">
+          <span>📱</span> Toffee Live
+        </a>
+        <a href="https://www.bioscopeplus.com/" target="_blank" class="watch-link-btn bioscope">
+          <span>🟢</span> Bioscope (GP)
+        </a>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;font-family:'Tiro Bangla',serif;">
+        ⚠️ লিংকগুলো বাংলাদেশের অফিসিয়াল ব্রডকাস্টার। ম্যাচ চলাকালীন লাইভ পাওয়া যাবে।
+      </div>
+    </div>`;
     return;
   }
-  let html = `<div class="section-title" style="color:var(--red);">🔴 এখন Live চলছে <span class="count-badge">${live.length}টি</span></div>`;
+  let html = `<div class="section-title" style="color:var(--red);">🔴 এখন Live চলছে <span class="count-badge">${live.length}টি</span></div>
+  <div class="watch-links-card" style="margin-bottom:12px;">
+    <div class="watch-links-title">📺 এখনই দেখুন</div>
+    <div class="watch-links-grid">
+      <a href="https://www.tsports.com.bd/live-tv" target="_blank" class="watch-link-btn tsports">
+        <span>🎬</span> T Sports Live
+      </a>
+      <a href="https://www.youtube.com/@TSportsbd/streams" target="_blank" class="watch-link-btn youtube">
+        <span>▶️</span> T Sports YouTube
+      </a>
+      <a href="https://www.toffee.live/" target="_blank" class="watch-link-btn toffee2">
+        <span>📱</span> Toffee Live
+      </a>
+      <a href="https://www.bioscopeplus.com/" target="_blank" class="watch-link-btn bioscope">
+        <span>🟢</span> Bioscope (GP)
+      </a>
+    </div>
+  </div>`;
   live.forEach(m => html += buildCard(m));
   el.innerHTML = html;
 }
@@ -1252,12 +1477,15 @@ function populateTeamFilter() {
     if (m.team2 !== 'TBD') teams.add(m.team2);
   });
   const sorted = [...teams].sort();
-  const sel = document.getElementById('teamFilter');
-  sorted.forEach(t => {
-    const o = document.createElement('option');
-    o.value = t;
-    o.textContent = `${FLAGS[t]||''} ${t}`;
-    sel.appendChild(o);
+  ['teamFilter', 'resultTeamFilter'].forEach(filterId => {
+    const sel = document.getElementById(filterId);
+    if (!sel) return;
+    sorted.forEach(t => {
+      const o = document.createElement('option');
+      o.value = t;
+      o.textContent = `${FLAGS[t]||''} ${t}`;
+      sel.appendChild(o);
+    });
   });
 }
 
@@ -1292,7 +1520,24 @@ function updateDaysLeft() {
 // PWA MANIFEST (inline)
 // ============================================================
 function setupPWA() {
-  // manifest.json is a real file — no blob needed
+  const manifest = {
+    name: 'FIFA 2026 বাংলাদেশ',
+    short_name: 'FIFA 2026',
+    description: 'FIFA World Cup 2026 বাংলাদেশ সময় শিডিউল',
+    start_url: '.',
+    display: 'standalone',
+    background_color: '#07111f',
+    theme_color: '#0a1628',
+    icons: [
+      { src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/26bd.png', sizes: '72x72', type: 'image/png' },
+      { src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/26bd.png', sizes: '192x192', type: 'image/png' },
+      { src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/144x144/26bd.png', sizes: '144x144', type: 'image/png' }
+    ]
+  };
+  try {
+    const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+    document.getElementById('manifest-link').href = URL.createObjectURL(blob);
+  } catch(e) {}
 
   // ── Is already installed? (standalone display mode or iOS)
   const isInstalled =
@@ -1408,15 +1653,51 @@ updateFavCount();
 simulateLiveScores();
 render();
 
-// Auto-refresh every 60 seconds
+// Auto-refresh every 30 seconds
 setInterval(() => {
   simulateLiveScores();
   render();
-}, 60000);
+}, 30000);
 
-// Service Worker for offline caching — uses real sw.js file (GitHub Pages compatible)
+// Service Worker for offline caching
+// Note: On sites.google.com, SW registration via blob URL is blocked.
+// We use a data: URI approach as fallback; works best when hosted on own domain.
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
+  try {
+    const swCode = `
+const CACHE = 'fifa26-v2';
+const ASSETS = ['.', './index.html'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {}));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      const fetchPromise = fetch(e.request).then(res => {
+        if (res && res.status === 200 && res.type === 'basic') {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return res;
+      }).catch(() => cached);
+      return cached || fetchPromise;
+    })
+  );
+});`;
+    const blob = new Blob([swCode], { type: 'application/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(() => {
+      // Silently fail on restricted hosts (sites.google.com)
+    });
+  } catch(e) { /* SW not supported or blocked */ }
 }
 </script>
 </body>
