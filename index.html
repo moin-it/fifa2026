@@ -1665,7 +1665,7 @@ setInterval(() => {
 if ('serviceWorker' in navigator) {
   try {
     const swCode = `
-const CACHE = 'fifa26-v2';
+const CACHE = 'fifa26-v4';
 const ASSETS = ['.', './index.html'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {}));
