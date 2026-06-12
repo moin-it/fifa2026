@@ -1,15 +1,15 @@
-const CACHE = 'fifa26-v2';
+const CACHE = 'fifa26-v5';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json'
+  '/fifa2026/',
+  '/fifa2026/index.html',
+  '/fifa2026/manifest.json',
+  '/fifa2026/icon-192.png',
+  '/fifa2026/icon-512.png'
 ];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE)
-      .then(c => c.addAll(ASSETS))
-      .catch(() => {})
+    caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {})
   );
   self.skipWaiting();
 });
@@ -21,6 +21,11 @@ self.addEventListener('activate', e => {
     )
   );
   self.clients.claim();
+});
+
+// Force update when main page sends SKIP_WAITING
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', e => {

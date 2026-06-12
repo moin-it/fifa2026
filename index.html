@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#0a1628">
 <meta name="description" content="FIFA World Cup 2026 - বাংলাদেশ সময় অনুযায়ী সম্পূর্ণ শিডিউল">
 <title>⚽ FIFA 2026 – বাংলাদেশ শিডিউল</title>
-<link rel="manifest" href="#" id="manifest-link">
+<link rel="manifest" href="manifest.json" id="manifest-link">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -1520,24 +1520,7 @@ function updateDaysLeft() {
 // PWA MANIFEST (inline)
 // ============================================================
 function setupPWA() {
-  const manifest = {
-    name: 'FIFA 2026 বাংলাদেশ',
-    short_name: 'FIFA 2026',
-    description: 'FIFA World Cup 2026 বাংলাদেশ সময় শিডিউল',
-    start_url: '.',
-    display: 'standalone',
-    background_color: '#07111f',
-    theme_color: '#0a1628',
-    icons: [
-      { src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/26bd.png', sizes: '72x72', type: 'image/png' },
-      { src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/72x72/26bd.png', sizes: '192x192', type: 'image/png' },
-      { src: 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14/assets/144x144/26bd.png', sizes: '144x144', type: 'image/png' }
-    ]
-  };
-  try {
-    const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
-    document.getElementById('manifest-link').href = URL.createObjectURL(blob);
-  } catch(e) {}
+  // manifest.json is served as a real file from GitHub Pages — no blob needed
 
   // ── Is already installed? (standalone display mode or iOS)
   const isInstalled =
@@ -1662,42 +1645,23 @@ setInterval(() => {
 // Service Worker for offline caching
 // Note: On sites.google.com, SW registration via blob URL is blocked.
 // We use a data: URI approach as fallback; works best when hosted on own domain.
+// Service Worker registration using real file (required for PWA install)
 if ('serviceWorker' in navigator) {
-  try {
-    const swCode = `
-const CACHE = 'fifa26-v4';
-const ASSETS = ['.', './index.html'];
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {}));
-  self.skipWaiting();
-});
-self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys =>
-    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-  ));
-  self.clients.claim();
-});
-self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      const fetchPromise = fetch(e.request).then(res => {
-        if (res && res.status === 200 && res.type === 'basic') {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
-      }).catch(() => cached);
-      return cached || fetchPromise;
-    })
-  );
-});`;
-    const blob = new Blob([swCode], { type: 'application/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(() => {
-      // Silently fail on restricted hosts (sites.google.com)
-    });
-  } catch(e) { /* SW not supported or blocked */ }
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/fifa2026/sw.js')
+      .then(reg => {
+        // Force update if new version available
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              newWorker.postMessage({ type: 'SKIP_WAITING' });
+            }
+          });
+        });
+      })
+      .catch(() => {});
+  });
 }
 </script>
 </body>
