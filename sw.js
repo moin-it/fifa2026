@@ -1,5 +1,5 @@
 // ⚠️ Version bump করলেই পুরনো ইনস্টল করা PWA আপনাআপনি update হবে
-const CACHE = 'fifa26-v8';
+const CACHE = 'fifa26-v9';
 const ASSETS = [
   '/fifa2026/',
   '/fifa2026/index.html',
@@ -48,35 +48,78 @@ self.addEventListener('fetch', e => {
 
   const url = new URL(e.request.url);
 
-  // scores.json ক্যাশ করব না — সবসময় fresh নেব
+  // ============================================================
+  // scores.json — NEVER CACHE, always network-first with fallback
+  // ============================================================
   if (url.pathname.endsWith('scores.json')) {
     e.respondWith(
-      fetch(e.request, { cache: 'no-store' }).catch(() => 
-        caches.match(e.request).then(cached => cached || new Response('{}', { 
-          status: 200, 
-          headers: { 'Content-Type': 'application/json' }
-        }))
-      )
+      fetch(e.request, { cache: 'no-store' })
+        .then(res => {
+          // Fresh response পেলে cache-এ রাখব না, কিন্তু return করব
+          return res;
+        })
+        .catch(() => {
+          // Network fail হলে cache থেকে দেখো (last resort)
+          return caches.match(e.request).then(cached => {
+            if (cached) return cached;
+            return new Response('{"scores":{},"lastUpdated":"","note":"offline"}', {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' }
+            });
+          });
+        })
     );
     return;
   }
 
-  // Score API calls ক্যাশ করব না — সবসময় network থেকে নেব
-  if (url.hostname.includes('football-data.org') ||
-      url.hostname.includes('thesportsdb.com') ||
-      url.hostname.includes('googleapis.com') ||
-      url.hostname.includes('googletagmanager.com') ||
-      url.hostname.includes('api-football.com') ||
-      url.hostname.includes('zafronix.com') ||
-      url.hostname.includes('youtube.com') ||
-      url.hostname.includes('tsports.com.bd') ||
-      url.hostname.includes('toffee.live') ||
-      url.hostname.includes('bioscopeplus.com')) {
-    e.respondWith(fetch(e.request).catch(() => new Response('', { status: 503 })));
+  // ============================================================
+  // Score API calls — NEVER CACHE
+  // ============================================================
+  const NEVER_CACHE_HOSTS = [
+    'football-data.org',
+    'thesportsdb.com',
+    'googleapis.com',
+    'googletagmanager.com',
+    'api-football.com',
+    'zafronix.com',
+    'youtube.com',
+    'tsports.com.bd',
+    'toffee.live',
+    'bioscopeplus.com',
+    'myrobi.com'
+  ];
+
+  if (NEVER_CACHE_HOSTS.some(h => url.hostname.includes(h))) {
+    e.respondWith(
+      fetch(e.request, { cache: 'no-store' })
+        .catch(() => new Response('', { status: 503 }))
+    );
     return;
   }
 
+  // ============================================================
+  // index.html — network-first (always get latest version)
+  // ============================================================
+  if (url.pathname.endsWith('index.html') || url.pathname === '/fifa2026/' || url.pathname === '/fifa2026') {
+    e.respondWith(
+      fetch(e.request, { cache: 'no-store' })
+        .then(res => {
+          if (res && res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE).then(c => c.put(e.request, clone));
+          }
+          return res;
+        })
+        .catch(() => {
+          return caches.match(e.request).then(cached => cached || new Response('Offline', { status: 503 }));
+        })
+    );
+    return;
+  }
+
+  // ============================================================
   // বাকি সব: cache-first, background update
+  // ============================================================
   e.respondWith(
     caches.match(e.request).then(cached => {
       const fetchPromise = fetch(e.request).then(res => {

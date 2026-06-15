@@ -908,6 +908,14 @@ body {
   opacity: 0.7;
 }
 
+/* Debug: show score source in card */
+.score-debug {
+  font-size: 9px;
+  color: var(--gold);
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
 /* No score message */
 .no-score-msg {
   font-size: 11px;
@@ -1286,19 +1294,30 @@ async function fetchLiveScores() {
   let anySuccess = false;
 
   // SOURCE 1: Local scores.json (same repo - most reliable for GitHub Pages)
+  // AGGRESSIVE cache busting: GitHub Pages CDN caches aggressively
   try {
-    const res = await fetch('scores.json?t=' + now, { 
-      signal: AbortSignal.timeout(5000),
-      cache: 'no-store'
+    const cacheBuster = 't=' + now + '&r=' + Math.random().toString(36).substring(2, 10);
+    const res = await fetch('scores.json?' + cacheBuster, {
+      signal: AbortSignal.timeout(8000),
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      }
     });
     if (res.ok) {
       const data = await res.json();
       if (data && data.scores) {
+        // Clear old manual results first to remove stale scores
+        Object.keys(MANUAL_RESULTS).forEach(k => delete MANUAL_RESULTS[k]);
         Object.assign(MANUAL_RESULTS, data.scores);
         anySuccess = true;
+        console.log('[Scores] Loaded', Object.keys(data.scores).length, 'scores from scores.json');
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    console.log('[Scores] scores.json fetch failed:', e.message);
+  }
 
   // SOURCE 2: football-data.org (free tier)
   if (!anySuccess) {
@@ -1463,6 +1482,11 @@ function getMatchStatus(m) {
   if (result) {
     if (result.status === 'IN_PLAY' || result.status === 'LIVE' || result.status === 'PAUSED') return 'live';
     if (result.status === 'FINISHED') return 'finished';
+    // If we have a score but no explicit status, infer from time
+    if (result.score) {
+      if (now >= start && now <= end) return 'live';
+      if (now > end) return 'finished';
+    }
   }
 
   if (now < start) return 'upcoming';
@@ -1548,9 +1572,10 @@ function buildCard(m) {
   } else if ((status === 'finished' || status === 'live') && hasScore) {
     scoreHtml = `<div class="score" id="score-${m.id}">${result.score}</div>`;
   } else if (status === 'finished' && !hasScore) {
-    // Match finished but no score yet - show message instead of ?-?
+    // Match finished but no score yet
     scoreHtml = `<div class="vs-text">VS</div><div class="kick-time">${fmtTime(m.time)}</div><div class="no-score-msg">🔄 স্কোর আসছে...</div>`;
   } else {
+    // Upcoming match - show kickoff time
     scoreHtml = `<div class="vs-text">VS</div><div class="kick-time">${fmtTime(m.time)}</div><div class="kick-sub">BDT</div>`;
   }
 
@@ -1631,7 +1656,7 @@ function buildResultCard(m) {
     ${winner === 'draw' ? '<div class="result-draw-badge">ড্র</div>' : ''}
     ${result.pens ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">(পেনাল্টি: ${result.pens})</div>` : ''}`;
   } else {
-    // No score available - show time instead of ?-?
+    // No score available yet
     scoreHtml = `<div class="vs-text">VS</div><div class="kick-time">${fmtTime(m.time)}</div>
     <div class="no-score-msg" style="margin-top:4px;">🔄 স্কোর আসছে...</div>`;
   }
@@ -1697,7 +1722,14 @@ function renderSchedule() {
 
   let filtered = MATCHES.filter(m => {
     const status = getMatchStatus(m);
-    if (status === 'finished') return false;
+    const result = getMatchResult(m.id);
+    // A match is "finished" only if it has a FINISHED status OR time passed + has score
+    // OR time passed significantly (105 min + buffer)
+    const start = getMatchDateTime(m);
+    const end = new Date(start.getTime() + 105*60*1000);
+    const now = new Date();
+    const isReallyFinished = status === 'finished' || (now > end && result && result.score);
+    if (isReallyFinished) return false;
     if (teamF && m.team1 !== teamF && m.team2 !== teamF) return false;
     if (stageF && m.stage !== stageF && (stageF === 'Group' ? m.stage !== 'Group' : m.stage !== stageF)) return false;
     if (dateF && m.date !== dateF) return false;
@@ -1742,7 +1774,9 @@ function renderResults() {
 
   let finished = MATCHES.filter(m => {
     const status = getMatchStatus(m);
-    return status === 'finished' || getMatchResult(m.id);
+    const result = getMatchResult(m.id);
+    // Show in results if: explicitly finished, OR has a score (even if time hasn't fully passed)
+    return status === 'finished' || (result && result.score);
   });
 
   if (teamF) finished = finished.filter(m => m.team1 === teamF || m.team2 === teamF);
@@ -2101,11 +2135,18 @@ setupPWA();
 updateFavCount();
 render();
 
-// Fetch scores every 30 seconds
+// Fetch scores immediately and every 30 seconds
 fetchLiveScores();
 setInterval(() => {
   fetchLiveScores();
 }, 30000);
+
+// Also fetch on page visibility change (user comes back to tab)
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    fetchLiveScores();
+  }
+});
 
 // Re-render every 10s for status changes
 setInterval(() => {
