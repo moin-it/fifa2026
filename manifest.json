@@ -1,7 +1,8 @@
 {
   "name": "FIFA 2026 বাংলাদেশ",
   "short_name": "FIFA 2026",
-  "description": "FIFA World Cup 2026 বাংলাদেশ সময় শিডিউল",
+  "description": "FIFA World Cup 2026 বাংলাদেশ সময় শিডিউল ও Live স্কোর",
+  "version": "2.1",
   "start_url": "/fifa2026/",
   "scope": "/fifa2026/",
   "display": "standalone",

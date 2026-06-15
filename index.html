@@ -12,8 +12,8 @@
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a1628">
-<meta name="description" content="FIFA World Cup 2026 - বাংলাদেশ সময় অনুযায়ী সম্পূর্ণ শিডিউল">
-<title>⚽ FIFA 2026 – বাংলাদেশ শিডিউল</title>
+<meta name="description" content="FIFA World Cup 2026 - বাংলাদেশ সময় অনুযায়ী সম্পূর্ণ শিডিউল, Live স্কোর ও সরাসরি সম্প্রচার">
+<title>⚽ FIFA 2026 – বাংলাদেশ শিডিউল & Live</title>
 <link rel="manifest" href="manifest.json" id="manifest-link">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -45,7 +45,6 @@ body {
   overflow-x: hidden;
 }
 
-/* HEADER */
 .header {
   background: linear-gradient(135deg, #07111f 0%, #0a1e38 50%, #061520 100%);
   border-bottom: 2px solid var(--gold);
@@ -95,7 +94,6 @@ body {
 .install-btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px rgba(245,197,24,0.6); }
 .install-btn.show { display: flex; align-items: center; gap: 5px; }
 
-/* TABS */
 .tabs {
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
@@ -132,10 +130,8 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
-/* MAIN */
 .main { max-width: 900px; margin: 0 auto; padding: 16px; }
 
-/* FILTER BAR */
 .filter-bar {
   display: flex;
   gap: 8px;
@@ -160,7 +156,6 @@ body {
 }
 .filter-bar option { background: var(--bg2); }
 
-/* STAGE BADGE */
 .stage-header {
   display: flex;
   align-items: center;
@@ -175,7 +170,6 @@ body {
 }
 .stage-line { flex: 1; height: 1px; background: var(--border); }
 
-/* MATCH CARD */
 .match-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -199,7 +193,7 @@ body {
 .match-card:hover::before { background: var(--gold); }
 .match-card.live { border-color: var(--live); animation: pulse-border 2s infinite; }
 .match-card.live::before { background: var(--live); }
-.match-card.finished { opacity: 0.75; }
+.match-card.finished { opacity: 0.85; }
 .match-card.favorite { border-color: var(--gold) !important; }
 .match-card.favorite::before { background: var(--gold) !important; }
 
@@ -213,6 +207,7 @@ body {
   align-items: center;
   gap: 8px;
   margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 .match-date-badge {
   font-size: 11px;
@@ -246,6 +241,18 @@ body {
   color: #aaa;
   padding: 2px 8px;
   border-radius: 20px;
+}
+.loading-badge {
+  font-size: 10px;
+  background: #1a4a80;
+  color: #74a9f5;
+  padding: 2px 8px;
+  border-radius: 20px;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 .match-body {
@@ -312,6 +319,8 @@ body {
   margin-top: 10px;
   padding-top: 8px;
   border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 8px;
 }
 .venue {
   font-size: 11px;
@@ -348,7 +357,6 @@ body {
   cursor: pointer;
 }
 
-/* STATS / INFO SECTION */
 .info-banner {
   background: linear-gradient(135deg, var(--card), var(--card2));
   border: 1px solid var(--border);
@@ -371,7 +379,6 @@ body {
   color: var(--muted);
 }
 
-/* FAVORITES PAGE */
 .fav-empty {
   text-align: center;
   padding: 60px 20px;
@@ -381,7 +388,6 @@ body {
 }
 .fav-empty .icon { font-size: 48px; margin-bottom: 12px; }
 
-/* REMINDER */
 .reminder-card {
   background: linear-gradient(135deg, #0d2040, #162d4a);
   border: 1px solid var(--gold);
@@ -406,11 +412,9 @@ body {
   cursor: pointer;
 }
 
-/* PAGES */
 .page { display: none; }
 .page.active { display: block; }
 
-/* EMPTY STATE */
 .empty-state {
   text-align: center;
   padding: 40px;
@@ -418,7 +422,6 @@ body {
   font-family: 'Tiro Bangla', serif;
 }
 
-/* NOTIFICATION TOAST */
 #toast {
   position: fixed;
   bottom: 80px;
@@ -441,7 +444,6 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* BOTTOM NAV */
 .bottom-nav {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -473,7 +475,6 @@ body {
 
 .pb-nav { padding-bottom: 70px; }
 
-/* RESULT CARD SCORE */
 .result-score-wrap {
   display: flex;
   align-items: center;
@@ -523,7 +524,6 @@ body {
   filter: drop-shadow(0 0 6px rgba(0,200,83,0.5));
 }
 
-/* WATCH LINKS */
 .watch-links-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -555,14 +555,16 @@ body {
   text-decoration: none;
   transition: all 0.2s;
   font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  border: none;
 }
 .watch-link-btn:hover { transform: translateY(-1px); filter: brightness(1.15); }
 .watch-link-btn.tsports { background: #c8001e; color: #fff; }
 .watch-link-btn.youtube { background: #ff0000; color: #fff; }
 .watch-link-btn.toffee2 { background: #00b894; color: #fff; }
 .watch-link-btn.bioscope { background: #0066cc; color: #fff; }
+.watch-link-btn.myrobi { background: #e60000; color: #fff; }
 
-/* MODAL */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.7);
@@ -597,7 +599,6 @@ body {
   cursor: pointer;
 }
 
-/* SECTION TITLE */
 .section-title {
   font-family: 'Tiro Bangla', serif;
   font-size: 14px;
@@ -613,7 +614,6 @@ body {
   margin-left: 6px;
 }
 
-/* FOOTER */
 .footer-credit {
   background: linear-gradient(135deg, #070f1e 0%, #0a1828 50%, #050d18 100%);
   border-top: 2px solid var(--gold);
@@ -661,13 +661,112 @@ body {
   letter-spacing: 0.3px;
 }
 
+@keyframes slideUp {
+  from { transform: translateX(-50%) translateY(30px); opacity:0; }
+  to { transform: translateX(-50%) translateY(0); opacity:1; }
+}
+
+.stream-embed-wrap {
+  width: 100%;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+}
+.stream-embed-wrap iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: none;
+  border-radius: 10px;
+  background: #000;
+  display: block;
+}
+.stream-btns {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.stream-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+  min-width: 130px;
+}
+.stream-btn.active {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+}
+.stream-btn:hover:not(.active) { border-color: var(--muted); color: var(--text); }
+
+.stream-loading {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10;
+}
+.stream-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.stream-loading-text {
+  color: var(--muted);
+  font-size: 12px;
+  font-family: 'Tiro Bangla', serif;
+}
+
+.score-updating {
+  animation: scorePulse 0.5s ease;
+}
+@keyframes scorePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); color: var(--green); }
+  100% { transform: scale(1); }
+}
+
+.api-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.api-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.api-status-dot.offline { background: var(--red); }
+.api-status-dot.syncing { background: var(--gold); animation: blink 1s infinite; }
+
 @media (min-width: 600px) {
   .match-body { gap: 16px; }
   .team-name { font-size: 16px; }
   .team-flag { font-size: 32px; }
 }
 
-/* PWA INSTALL POPUP */
 #pwa-popup-overlay {
   position: fixed;
   inset: 0;
@@ -767,6 +866,39 @@ body {
   cursor: pointer;
   line-height: 1;
 }
+
+#updateBanner {
+  position: fixed;
+  bottom: 75px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #0d2a10, #1a4a20);
+  border: 1px solid var(--green);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-family: 'Tiro Bangla', serif;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0,200,83,0.3);
+  max-width: 90%;
+  text-align: center;
+  animation: slideUp 0.4s ease;
+}
+#updateBanner button {
+  background: var(--green);
+  color: #000;
+  border: none;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
 </style>
 </head>
 <body>
@@ -775,9 +907,13 @@ body {
   <div class="header-inner">
     <div>
       <div class="logo">FIFA <span>2026</span></div>
-      <div class="header-sub">বাংলাদেশ সময় (BDT · UTC+6)</div>
+      <div class="header-sub">বাংলাদেশ সময় (BDT · UTC+6) · Live স্কোর & সম্প্রচার</div>
     </div>
     <div class="header-right">
+      <div class="api-status" id="apiStatus" style="display:none;">
+        <span class="api-status-dot" id="apiDot"></span>
+        <span id="apiText">স্কোর আপডেট হচ্ছে</span>
+      </div>
       <button class="install-btn" id="installBtn">📲 অ্যাপ ইনস্টল করুন</button>
     </div>
   </div>
@@ -793,7 +929,6 @@ body {
 
 <div class="main pb-nav">
 
-  <!-- SCHEDULE PAGE -->
   <div class="page active" id="page-schedule">
     <div class="info-banner">
       <div class="info-stat">
@@ -835,12 +970,10 @@ body {
     <div id="scheduleList"></div>
   </div>
 
-  <!-- FAVORITES PAGE -->
   <div class="page" id="page-favorites">
     <div id="favList"></div>
   </div>
 
-  <!-- RESULTS PAGE -->
   <div class="page" id="page-results">
     <div class="filter-bar" style="margin-bottom:12px;">
       <select id="resultTeamFilter" onchange="renderResults()">
@@ -859,14 +992,12 @@ body {
     <div id="resultList"></div>
   </div>
 
-  <!-- LIVE PAGE -->
   <div class="page" id="page-live">
     <div id="liveList"></div>
   </div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer-credit">
   <div class="footer-inner">
     <div class="footer-logo">⚽ FIFA 2026 · BDT শিডিউল</div>
@@ -882,7 +1013,6 @@ body {
   </div>
 </div>
 
-<!-- PWA INSTALL POPUP -->
 <div id="pwa-popup-overlay" style="display:none;">
   <div id="pwa-popup">
     <button class="pwa-popup-close" onclick="closePwaPopup()">✕</button>
@@ -903,10 +1033,8 @@ body {
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
-<!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="nav-item active" onclick="switchTab('schedule')">
     <span class="nav-icon">📅</span>শিডিউল
@@ -923,9 +1051,7 @@ body {
 </div>
 
 <script>
-// ============================================================
-// DATA – All 104 matches in BDT (UTC+6)
-// ============================================================
+
 const FLAGS = {
   "Mexico":"🇲🇽","South Africa":"🇿🇦","South Korea":"🇰🇷","Czechia":"🇨🇿",
   "Canada":"🇨🇦","Bosnia & Herzegovina":"🇧🇦","United States":"🇺🇸","Paraguay":"🇵🇾",
@@ -943,96 +1069,78 @@ const FLAGS = {
 };
 
 const MATCHES = [
-  // June 12
   {id:1,date:"2026-06-12",time:"01:00",team1:"Mexico",team2:"South Africa",group:"A",stage:"Group",venue:"Mexico City"},
   {id:2,date:"2026-06-12",time:"08:00",team1:"South Korea",team2:"Czechia",group:"A",stage:"Group",venue:"Guadalajara"},
-  // June 13
   {id:3,date:"2026-06-13",time:"01:00",team1:"Canada",team2:"Bosnia & Herzegovina",group:"B",stage:"Group",venue:"Toronto"},
   {id:4,date:"2026-06-13",time:"07:00",team1:"United States",team2:"Paraguay",group:"D",stage:"Group",venue:"Inglewood"},
-  // June 14
   {id:5,date:"2026-06-14",time:"01:00",team1:"Qatar",team2:"Switzerland",group:"B",stage:"Group",venue:"Santa Clara"},
   {id:6,date:"2026-06-14",time:"04:00",team1:"Brazil",team2:"Morocco",group:"C",stage:"Group",venue:"East Rutherford"},
   {id:7,date:"2026-06-14",time:"07:00",team1:"Haiti",team2:"Scotland",group:"C",stage:"Group",venue:"Foxborough"},
   {id:8,date:"2026-06-14",time:"22:00",team1:"Australia",team2:"Türkiye",group:"D",stage:"Group",venue:"Vancouver"},
   {id:9,date:"2026-06-14",time:"23:00",team1:"Germany",team2:"Curaçao",group:"E",stage:"Group",venue:"Houston"},
-  // June 15
   {id:10,date:"2026-06-15",time:"02:00",team1:"Netherlands",team2:"Japan",group:"F",stage:"Group",venue:"Arlington"},
   {id:11,date:"2026-06-15",time:"05:00",team1:"Ivory Coast",team2:"Ecuador",group:"E",stage:"Group",venue:"Philadelphia"},
   {id:12,date:"2026-06-15",time:"08:00",team1:"Sweden",team2:"Tunisia",group:"F",stage:"Group",venue:"Monterrey"},
   {id:13,date:"2026-06-15",time:"22:00",team1:"Spain",team2:"Cape Verde",group:"H",stage:"Group",venue:"Atlanta"},
-  // June 16
   {id:14,date:"2026-06-16",time:"01:00",team1:"Belgium",team2:"Egypt",group:"G",stage:"Group",venue:"Seattle"},
   {id:15,date:"2026-06-16",time:"04:00",team1:"Saudi Arabia",team2:"Uruguay",group:"H",stage:"Group",venue:"Miami Gardens"},
   {id:16,date:"2026-06-16",time:"07:00",team1:"Iran",team2:"New Zealand",group:"G",stage:"Group",venue:"Inglewood"},
-  // June 17
   {id:17,date:"2026-06-17",time:"01:00",team1:"France",team2:"Senegal",group:"I",stage:"Group",venue:"East Rutherford"},
   {id:18,date:"2026-06-17",time:"04:00",team1:"Iraq",team2:"Norway",group:"I",stage:"Group",venue:"Foxborough"},
   {id:19,date:"2026-06-17",time:"07:00",team1:"Argentina",team2:"Algeria",group:"J",stage:"Group",venue:"Kansas City"},
   {id:20,date:"2026-06-17",time:"10:00",team1:"Austria",team2:"Jordan",group:"J",stage:"Group",venue:"Santa Clara"},
   {id:21,date:"2026-06-17",time:"23:00",team1:"Portugal",team2:"DR Congo",group:"K",stage:"Group",venue:"Houston"},
-  // June 18
   {id:22,date:"2026-06-18",time:"02:00",team1:"England",team2:"Croatia",group:"L",stage:"Group",venue:"Arlington"},
   {id:23,date:"2026-06-18",time:"05:00",team1:"Ghana",team2:"Panama",group:"L",stage:"Group",venue:"Toronto"},
   {id:24,date:"2026-06-18",time:"08:00",team1:"Uzbekistan",team2:"Colombia",group:"K",stage:"Group",venue:"Mexico City"},
   {id:25,date:"2026-06-18",time:"22:00",team1:"Czechia",team2:"South Africa",group:"A",stage:"Group",venue:"Atlanta"},
-  // June 19
   {id:26,date:"2026-06-19",time:"01:00",team1:"Switzerland",team2:"Bosnia & Herzegovina",group:"B",stage:"Group",venue:"Inglewood"},
   {id:27,date:"2026-06-19",time:"04:00",team1:"Canada",team2:"Qatar",group:"B",stage:"Group",venue:"Vancouver"},
   {id:28,date:"2026-06-19",time:"07:00",team1:"Mexico",team2:"South Korea",group:"A",stage:"Group",venue:"Guadalajara"},
-  // June 20
   {id:29,date:"2026-06-20",time:"01:00",team1:"United States",team2:"Australia",group:"D",stage:"Group",venue:"Seattle"},
   {id:30,date:"2026-06-20",time:"04:00",team1:"Scotland",team2:"Morocco",group:"C",stage:"Group",venue:"Foxborough"},
   {id:31,date:"2026-06-20",time:"06:30",team1:"Brazil",team2:"Haiti",group:"C",stage:"Group",venue:"Philadelphia"},
   {id:32,date:"2026-06-20",time:"09:00",team1:"Türkiye",team2:"Paraguay",group:"D",stage:"Group",venue:"Santa Clara"},
   {id:33,date:"2026-06-20",time:"23:00",team1:"Netherlands",team2:"Sweden",group:"F",stage:"Group",venue:"Houston"},
-  // June 21
   {id:34,date:"2026-06-21",time:"02:00",team1:"Germany",team2:"Ivory Coast",group:"E",stage:"Group",venue:"Toronto"},
   {id:35,date:"2026-06-21",time:"06:00",team1:"Ecuador",team2:"Curaçao",group:"E",stage:"Group",venue:"Kansas City"},
   {id:36,date:"2026-06-21",time:"10:00",team1:"Tunisia",team2:"Japan",group:"F",stage:"Group",venue:"Monterrey"},
   {id:37,date:"2026-06-21",time:"22:00",team1:"Spain",team2:"Saudi Arabia",group:"H",stage:"Group",venue:"Atlanta"},
-  // June 22
   {id:38,date:"2026-06-22",time:"01:00",team1:"Belgium",team2:"Iran",group:"G",stage:"Group",venue:"Inglewood"},
   {id:39,date:"2026-06-22",time:"04:00",team1:"Uruguay",team2:"Cape Verde",group:"H",stage:"Group",venue:"Miami Gardens"},
   {id:40,date:"2026-06-22",time:"07:00",team1:"New Zealand",team2:"Egypt",group:"G",stage:"Group",venue:"Vancouver"},
   {id:41,date:"2026-06-22",time:"23:00",team1:"Argentina",team2:"Austria",group:"J",stage:"Group",venue:"Arlington"},
-  // June 23
   {id:42,date:"2026-06-23",time:"03:00",team1:"France",team2:"Iraq",group:"I",stage:"Group",venue:"Philadelphia"},
   {id:43,date:"2026-06-23",time:"06:00",team1:"Norway",team2:"Senegal",group:"I",stage:"Group",venue:"East Rutherford"},
   {id:44,date:"2026-06-23",time:"09:00",team1:"Jordan",team2:"Algeria",group:"J",stage:"Group",venue:"Santa Clara"},
   {id:45,date:"2026-06-23",time:"23:00",team1:"Portugal",team2:"Uzbekistan",group:"K",stage:"Group",venue:"Houston"},
-  // June 24
   {id:46,date:"2026-06-24",time:"02:00",team1:"England",team2:"Ghana",group:"L",stage:"Group",venue:"Foxborough"},
   {id:47,date:"2026-06-24",time:"05:00",team1:"Panama",team2:"Croatia",group:"L",stage:"Group",venue:"Toronto"},
   {id:48,date:"2026-06-24",time:"08:00",team1:"Colombia",team2:"DR Congo",group:"K",stage:"Group",venue:"Guadalajara"},
-  // June 25
   {id:49,date:"2026-06-25",time:"01:00",team1:"Switzerland",team2:"Canada",group:"B",stage:"Group",venue:"Vancouver"},
   {id:50,date:"2026-06-25",time:"01:00",team1:"Bosnia & Herzegovina",team2:"Qatar",group:"B",stage:"Group",venue:"Seattle"},
   {id:51,date:"2026-06-25",time:"04:00",team1:"Scotland",team2:"Brazil",group:"C",stage:"Group",venue:"Miami Gardens"},
   {id:52,date:"2026-06-25",time:"04:00",team1:"Morocco",team2:"Haiti",group:"C",stage:"Group",venue:"Atlanta"},
   {id:53,date:"2026-06-25",time:"07:00",team1:"Czechia",team2:"Mexico",group:"A",stage:"Group",venue:"Mexico City"},
   {id:54,date:"2026-06-25",time:"07:00",team1:"South Africa",team2:"South Korea",group:"A",stage:"Group",venue:"Monterrey"},
-  // June 26
   {id:55,date:"2026-06-26",time:"02:00",team1:"Curaçao",team2:"Ivory Coast",group:"E",stage:"Group",venue:"Philadelphia"},
   {id:56,date:"2026-06-26",time:"02:00",team1:"Ecuador",team2:"Germany",group:"E",stage:"Group",venue:"East Rutherford"},
   {id:57,date:"2026-06-26",time:"05:00",team1:"Japan",team2:"Sweden",group:"F",stage:"Group",venue:"Arlington"},
   {id:58,date:"2026-06-26",time:"05:00",team1:"Tunisia",team2:"Netherlands",group:"F",stage:"Group",venue:"Kansas City"},
   {id:59,date:"2026-06-26",time:"08:00",team1:"Türkiye",team2:"United States",group:"D",stage:"Group",venue:"Inglewood"},
   {id:60,date:"2026-06-26",time:"08:00",team1:"Paraguay",team2:"Australia",group:"D",stage:"Group",venue:"Santa Clara"},
-  // June 27
   {id:61,date:"2026-06-27",time:"01:00",team1:"Norway",team2:"France",group:"I",stage:"Group",venue:"Foxborough"},
   {id:62,date:"2026-06-27",time:"01:00",team1:"Senegal",team2:"Iraq",group:"I",stage:"Group",venue:"Toronto"},
   {id:63,date:"2026-06-27",time:"06:00",team1:"Cape Verde",team2:"Saudi Arabia",group:"H",stage:"Group",venue:"Houston"},
   {id:64,date:"2026-06-27",time:"06:00",team1:"Uruguay",team2:"Spain",group:"H",stage:"Group",venue:"Guadalajara"},
   {id:65,date:"2026-06-27",time:"09:00",team1:"Egypt",team2:"Iran",group:"G",stage:"Group",venue:"Seattle"},
   {id:66,date:"2026-06-27",time:"09:00",team1:"New Zealand",team2:"Belgium",group:"G",stage:"Group",venue:"Vancouver"},
-  // June 28
   {id:67,date:"2026-06-28",time:"03:00",team1:"Panama",team2:"England",group:"L",stage:"Group",venue:"East Rutherford"},
   {id:68,date:"2026-06-28",time:"03:00",team1:"Croatia",team2:"Ghana",group:"L",stage:"Group",venue:"Philadelphia"},
   {id:69,date:"2026-06-28",time:"05:30",team1:"Colombia",team2:"Portugal",group:"K",stage:"Group",venue:"Miami Gardens"},
   {id:70,date:"2026-06-28",time:"05:30",team1:"DR Congo",team2:"Uzbekistan",group:"K",stage:"Group",venue:"Atlanta"},
   {id:71,date:"2026-06-28",time:"08:00",team1:"Algeria",team2:"Austria",group:"J",stage:"Group",venue:"Kansas City"},
   {id:72,date:"2026-06-28",time:"08:00",team1:"Jordan",team2:"Argentina",group:"J",stage:"Group",venue:"Arlington"},
-  // R32
   {id:73,date:"2026-06-29",time:"01:00",team1:"TBD",team2:"TBD",stage:"R32",venue:"Inglewood"},
   {id:74,date:"2026-06-29",time:"23:00",team1:"TBD",team2:"TBD",stage:"R32",venue:"Houston"},
   {id:75,date:"2026-06-30",time:"02:30",team1:"TBD",team2:"TBD",stage:"R32",venue:"Foxborough"},
@@ -1049,7 +1157,6 @@ const MATCHES = [
   {id:86,date:"2026-07-04",time:"00:00",team1:"TBD",team2:"TBD",stage:"R32",venue:"Arlington"},
   {id:87,date:"2026-07-04",time:"04:00",team1:"TBD",team2:"TBD",stage:"R32",venue:"Miami Gardens"},
   {id:88,date:"2026-07-04",time:"07:30",team1:"TBD",team2:"TBD",stage:"R32",venue:"Kansas City"},
-  // R16
   {id:89,date:"2026-07-04",time:"23:00",team1:"TBD",team2:"TBD",stage:"R16",venue:"Houston"},
   {id:90,date:"2026-07-05",time:"03:00",team1:"TBD",team2:"TBD",stage:"R16",venue:"Philadelphia"},
   {id:91,date:"2026-07-06",time:"02:00",team1:"TBD",team2:"TBD",stage:"R16",venue:"East Rutherford"},
@@ -1058,24 +1165,251 @@ const MATCHES = [
   {id:94,date:"2026-07-07",time:"06:00",team1:"TBD",team2:"TBD",stage:"R16",venue:"Seattle"},
   {id:95,date:"2026-07-07",time:"22:00",team1:"TBD",team2:"TBD",stage:"R16",venue:"Atlanta"},
   {id:96,date:"2026-07-08",time:"02:00",team1:"TBD",team2:"TBD",stage:"R16",venue:"Vancouver"},
-  // QF
   {id:97,date:"2026-07-10",time:"02:00",team1:"TBD",team2:"TBD",stage:"QF",venue:"Foxborough"},
   {id:98,date:"2026-07-11",time:"01:00",team1:"TBD",team2:"TBD",stage:"QF",venue:"Inglewood"},
   {id:99,date:"2026-07-12",time:"03:00",team1:"TBD",team2:"TBD",stage:"QF",venue:"Miami Gardens"},
   {id:100,date:"2026-07-12",time:"07:00",team1:"TBD",team2:"TBD",stage:"QF",venue:"Kansas City"},
-  // SF
   {id:101,date:"2026-07-15",time:"01:00",team1:"TBD",team2:"TBD",stage:"SF",venue:"Arlington"},
   {id:102,date:"2026-07-16",time:"01:00",team1:"TBD",team2:"TBD",stage:"SF",venue:"Atlanta"},
-  // 3rd & Final
   {id:103,date:"2026-07-19",time:"03:00",team1:"TBD",team2:"TBD",stage:"3rd",venue:"Miami Gardens"},
   {id:104,date:"2026-07-20",time:"01:00",team1:"TBD",team2:"TBD",stage:"Final",venue:"East Rutherford (MetLife Stadium)"},
 ];
 
-// Simulated results for past/live matches
-const RESULTS = {
-  1: { score: '2 – 1' },   // Mexico vs South Africa → Mexico wins
-  2: { score: '0 – 0' },   // South Korea vs Czechia → Draw
+let RESULTS = {};
+let API_RESULTS = {}; // Real-time API results
+let isApiConnected = false;
+let lastApiFetch = 0;
+
+const TEAM_NAME_MAP = {
+  'Mexico': 'Mexico',
+  'South Africa': 'South Africa',
+  'Korea Republic': 'South Korea',
+  'Czech Republic': 'Czechia',
+  'Czechia': 'Czechia',
+  'Canada': 'Canada',
+  'Bosnia and Herzegovina': 'Bosnia & Herzegovina',
+  'Bosnia-Herzegovina': 'Bosnia & Herzegovina',
+  'USA': 'United States',
+  'United States': 'United States',
+  'Paraguay': 'Paraguay',
+  'Qatar': 'Qatar',
+  'Switzerland': 'Switzerland',
+  'Brazil': 'Brazil',
+  'Morocco': 'Morocco',
+  'Haiti': 'Haiti',
+  'Scotland': 'Scotland',
+  'Australia': 'Australia',
+  'Turkey': 'Türkiye',
+  'Türkiye': 'Türkiye',
+  'Germany': 'Germany',
+  'Curaçao': 'Curaçao',
+  'Curacao': 'Curaçao',
+  'Netherlands': 'Netherlands',
+  'Japan': 'Japan',
+  'Ivory Coast': 'Ivory Coast',
+  "Côte d'Ivoire": 'Ivory Coast',
+  'Ecuador': 'Ecuador',
+  'Sweden': 'Sweden',
+  'Tunisia': 'Tunisia',
+  'Spain': 'Spain',
+  'Cape Verde': 'Cape Verde',
+  'Cabo Verde': 'Cape Verde',
+  'Belgium': 'Belgium',
+  'Egypt': 'Egypt',
+  'Saudi Arabia': 'Saudi Arabia',
+  'Uruguay': 'Uruguay',
+  'Iran': 'Iran',
+  'New Zealand': 'New Zealand',
+  'France': 'France',
+  'Senegal': 'Senegal',
+  'Iraq': 'Iraq',
+  'Norway': 'Norway',
+  'Argentina': 'Argentina',
+  'Algeria': 'Algeria',
+  'Austria': 'Austria',
+  'Jordan': 'Jordan',
+  'Portugal': 'Portugal',
+  'DR Congo': 'DR Congo',
+  'Congo DR': 'DR Congo',
+  'England': 'England',
+  'Croatia': 'Croatia',
+  'Ghana': 'Ghana',
+  'Panama': 'Panama',
+  'Uzbekistan': 'Uzbekistan',
+  'Colombia': 'Colombia',
 };
+
+function buildTeamMatchMap() {
+  const map = {};
+  MATCHES.forEach(m => {
+    if (m.team1 === 'TBD' || m.team2 === 'TBD') return;
+    const key1 = `${m.team1}||${m.team2}`;
+    const key2 = `${m.team2}||${m.team1}`;
+    map[key1] = m.id;
+    map[key2] = m.id;
+  });
+  return map;
+}
+
+// ============================================================
+// MULTI-API SCORE FETCHING SYSTEM
+// ============================================================
+async function fetchLiveScores() {
+  const now = Date.now();
+  if (now - lastApiFetch < 15000) return; // Minimum 15s between fetches
+  lastApiFetch = now;
+
+  updateApiStatus('syncing', 'স্কোর আপডেট হচ্ছে...');
+
+  let success = false;
+
+  // Try API 1: football-data.org (free tier)
+  try {
+    const res = await fetch('https://api.football-data.org/v4/competitions/2000/matches?status=FINISHED,LIVE,IN_PLAY,PAUSED,SCHEDULED', {
+      headers: { 'X-Auth-Token': '' },
+      signal: AbortSignal.timeout(8000)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      processApiData(data, 'football-data');
+      success = true;
+    }
+  } catch (e) {}
+
+  // Try API 2: TheSportsDB (free)
+  if (!success) {
+    try {
+      const res2 = await fetch('https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4436&s=2026', {
+        signal: AbortSignal.timeout(8000)
+      });
+      if (res2.ok) {
+        const d2 = await res2.json();
+        processSportsDbData(d2);
+        success = true;
+      }
+    } catch (e2) {}
+  }
+
+  // Try API 3: Zafronix (free tier for World Cup)
+  if (!success) {
+    try {
+      const res3 = await fetch('https://api.zafronix.com/v1/football/competitions/2000/matches', {
+        signal: AbortSignal.timeout(8000)
+      });
+      if (res3.ok) {
+        const d3 = await res3.json();
+        processApiData(d3, 'zafronix');
+        success = true;
+      }
+    } catch (e3) {}
+  }
+
+  if (success) {
+    isApiConnected = true;
+    updateApiStatus('online', 'Live স্কোর চলছে');
+    render();
+  } else {
+    isApiConnected = false;
+    updateApiStatus('offline', 'অফলাইন মোড');
+  }
+}
+
+function processApiData(data, source) {
+  const teamMap = buildTeamMatchMap();
+  if (!data.matches) return;
+
+  data.matches.forEach(apiMatch => {
+    const t1 = TEAM_NAME_MAP[apiMatch.homeTeam?.name] || apiMatch.homeTeam?.name;
+    const t2 = TEAM_NAME_MAP[apiMatch.awayTeam?.name] || apiMatch.awayTeam?.name;
+    const key = `${t1}||${t2}`;
+    const matchId = teamMap[key];
+    if (!matchId) return;
+
+    const status = apiMatch.status;
+    const g1 = apiMatch.score?.fullTime?.home ?? apiMatch.score?.regularTime?.home;
+    const g2 = apiMatch.score?.fullTime?.away ?? apiMatch.score?.regularTime?.away;
+
+    if (g1 !== null && g1 !== undefined && g2 !== null && g2 !== undefined) {
+      const oldScore = API_RESULTS[matchId]?.score;
+      const newScore = `${g1} – ${g2}`;
+
+      API_RESULTS[matchId] = { 
+        score: newScore,
+        status: status,
+        source: source,
+        updated: Date.now()
+      };
+
+      // Also update RESULTS for compatibility
+      RESULTS[matchId] = { score: newScore };
+
+      if (apiMatch.score?.penalties?.home !== null && apiMatch.score?.penalties?.home !== undefined) {
+        API_RESULTS[matchId].pens = `${apiMatch.score.penalties.home} – ${apiMatch.score.penalties.away}`;
+        RESULTS[matchId].pens = API_RESULTS[matchId].pens;
+      }
+
+      // Trigger score update animation if score changed
+      if (oldScore && oldScore !== newScore) {
+        triggerScoreAnimation(matchId);
+      }
+    }
+  });
+}
+
+function processSportsDbData(data) {
+  const teamMap = buildTeamMatchMap();
+  if (!data.events) return;
+
+  data.events.forEach(ev => {
+    if (!ev.intHomeScore && !ev.intAwayScore) return;
+    const t1 = TEAM_NAME_MAP[ev.strHomeTeam] || ev.strHomeTeam;
+    const t2 = TEAM_NAME_MAP[ev.strAwayTeam] || ev.strAwayTeam;
+    const key = `${t1}||${t2}`;
+    const matchId = teamMap[key];
+    if (!matchId) return;
+
+    const g1 = parseInt(ev.intHomeScore);
+    const g2 = parseInt(ev.intAwayScore);
+
+    if (!isNaN(g1) && !isNaN(g2)) {
+      const oldScore = API_RESULTS[matchId]?.score;
+      const newScore = `${g1} – ${g2}`;
+
+      API_RESULTS[matchId] = {
+        score: newScore,
+        status: ev.strStatus || 'FINISHED',
+        source: 'thesportsdb',
+        updated: Date.now()
+      };
+
+      RESULTS[matchId] = { score: newScore };
+
+      if (oldScore && oldScore !== newScore) {
+        triggerScoreAnimation(matchId);
+      }
+    }
+  });
+}
+
+function triggerScoreAnimation(matchId) {
+  const el = document.getElementById(`score-${matchId}`);
+  if (el) {
+    el.classList.add('score-updating');
+    setTimeout(() => el.classList.remove('score-updating'), 500);
+  }
+}
+
+function updateApiStatus(status, text) {
+  const statusEl = document.getElementById('apiStatus');
+  const dotEl = document.getElementById('apiDot');
+  const textEl = document.getElementById('apiText');
+
+  if (!statusEl) return;
+
+  statusEl.style.display = 'inline-flex';
+  dotEl.className = 'api-status-dot ' + status;
+  textEl.textContent = text;
+}
 
 // ============================================================
 // STATE
@@ -1108,13 +1442,21 @@ function getMatchStatus(m) {
   const now = new Date();
   const start = getMatchDateTime(m);
   const end = new Date(start.getTime() + 105*60*1000);
+
+  // Check API status first
+  const apiResult = API_RESULTS[m.id];
+  if (apiResult) {
+    if (apiResult.status === 'IN_PLAY' || apiResult.status === 'LIVE' || apiResult.status === 'PAUSED') return 'live';
+    if (apiResult.status === 'FINISHED' || apiResult.status === 'FINISHED') return 'finished';
+  }
+
   if (now < start) return 'upcoming';
   if (now >= start && now <= end) return 'live';
   return 'finished';
 }
 
 function getStageName(stage) {
-  const map = {Group:'গ্রুপ পর্যায়',R32:'রাউন্ড অফ ৩২',R16:'রাউন্ড অফ ১৬',QF:'কোয়ার্টার ফাইনাল',SF:'সেমি ফাইনাল','3rd':'তৃতীয় স্থান','Final':'ফাইনাল'};
+  const map = {Group:'গ্রুপ পর্যায়',R32:'রাউন্ড অফ ৩২',R16:'রাউন্ড অফ ১৬',QF:'কোয়ার্টার ফাইনাল',SF:'সেমি ফাইনাল','3rd':'তৃতীয় স্থান',Final:'ফাইনাল'};
   return map[stage] || stage;
 }
 
@@ -1145,9 +1487,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ============================================================
-// REMINDER
-// ============================================================
 function scheduleReminder(matchId) {
   const m = MATCHES.find(x => x.id === matchId);
   if (!m || m.team1 === 'TBD') return;
@@ -1169,7 +1508,7 @@ function scheduleReminder(matchId) {
 }
 
 // ============================================================
-// CARD BUILDER
+// CARD BUILDER - with auto-updating scores
 // ============================================================
 function buildCard(m) {
   const status = getMatchStatus(m);
@@ -1177,34 +1516,43 @@ function buildCard(m) {
   const f1 = FLAGS[m.team1] || '🏳️';
   const f2 = FLAGS[m.team2] || '🏳️';
   const isTBD = m.team1 === 'TBD';
-  const result = RESULTS[m.id];
+  const result = API_RESULTS[m.id] || RESULTS[m.id];
+  const isApiLive = API_RESULTS[m.id] && (API_RESULTS[m.id].status === 'IN_PLAY' || API_RESULTS[m.id].status === 'LIVE');
 
   let statusBadge = '';
-  if (status === 'live') statusBadge = `<span class="live-badge">🔴 LIVE</span>`;
-  else if (status === 'finished') statusBadge = `<span class="finished-badge">✓ শেষ</span>`;
+  if (isApiLive || status === 'live') {
+    statusBadge = `<span class="live-badge">🔴 LIVE</span>`;
+  } else if (status === 'finished') {
+    statusBadge = `<span class="finished-badge">✓ শেষ</span>`;
+  }
 
   let scoreHtml = '';
-  if (status === 'live') {
-    scoreHtml = `<div class="score" id="score-${m.id}">${result ? result.score : '0 – 0'}</div>`;
-  } else if (status === 'finished' && result) {
-    scoreHtml = `<div class="score">${result.score}</div>`;
+  if (isApiLive || status === 'live') {
+    if (result && result.score) {
+      scoreHtml = `<div class="score" id="score-${m.id}">${result.score}</div>`;
+    } else {
+      scoreHtml = `<div class="score" id="score-${m.id}">0 – 0</div>`;
+    }
+  } else if ((status === 'finished' || status === 'live') && result) {
+    scoreHtml = `<div class="score" id="score-${m.id}">${result.score}</div>`;
   } else {
     scoreHtml = `<div class="vs-text">VS</div><div class="kick-time">${fmtTime(m.time)}</div><div class="kick-sub">BDT</div>`;
   }
 
   let watchBtn = '';
-  if (status === 'live') {
+  if (isApiLive || status === 'live') {
     watchBtn = `<button class="btn-sm btn-watch" onclick="watchLive(${m.id})">📺 দেখুন</button>`;
   }
 
   const nameClass = m.team1.length > 10 ? 'team-name small' : 'team-name';
 
   return `
-  <div class="match-card ${status} ${fav ? 'favorite' : ''}" id="card-${m.id}">
+  <div class="match-card ${isApiLive || status === 'live' ? 'live' : ''} ${fav ? 'favorite' : ''}" id="card-${m.id}">
     <div class="match-top">
       <span class="match-date-badge">${fmtDate(m.date)}</span>
       ${m.group ? `<span class="match-group">গ্রুপ ${m.group}</span>` : `<span class="match-group">${getStageName(m.stage)}</span>`}
       ${statusBadge}
+      ${isApiLive ? `<span class="loading-badge">⚡ Auto</span>` : ''}
     </div>
     <div class="match-body">
       <div class="team">
@@ -1232,23 +1580,23 @@ function buildCard(m) {
 }
 
 function watchLive(id) {
-  // Open T Sports live (official BD broadcaster)
-  window.open('https://www.tsports.com.bd/live-tv', '_blank');
-  showToast('📺 T Sports-এ লাইভ দেখুন!');
+  switchTab('live');
+  showToast('📺 Live ট্যাবে সরাসরি সম্প্রচার দেখুন!');
 }
 
 // ============================================================
-// RESULT CARD – shows score with winner highlight
+// RESULT CARD – with auto-updating scores
 // ============================================================
 function buildResultCard(m) {
   const fav = isFav(m.id);
   const f1 = FLAGS[m.team1] || '🏳️';
   const f2 = FLAGS[m.team2] || '🏳️';
   const isTBD = m.team1 === 'TBD';
-  const result = RESULTS[m.id];
+  const result = API_RESULTS[m.id] || RESULTS[m.id];
+  const isApiConnected = API_RESULTS[m.id] !== undefined;
 
   let scoreHtml = '';
-  let winner = null; // 1, 2, or 'draw'
+  let winner = null;
   let t1Class = '', t2Class = '';
 
   if (result && result.score) {
@@ -1270,7 +1618,8 @@ function buildResultCard(m) {
     ${winner === 'draw' ? '<div class="result-draw-badge">ড্র</div>' : ''}
     ${result.pens ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">(পেনাল্টি: ${result.pens})</div>` : ''}`;
   } else {
-    scoreHtml = `<div class="result-score-wrap"><span class="result-goal" style="color:var(--muted);">?</span><span class="result-dash">–</span><span class="result-goal" style="color:var(--muted);">?</span></div>`;
+    scoreHtml = `<div class="result-score-wrap"><span class="result-goal" style="color:var(--muted);">?</span><span class="result-dash">–</span><span class="result-goal" style="color:var(--muted);">?</span></div>
+    ${!isApiConnected ? '<div style="font-size:10px;color:var(--muted);margin-top:4px;">🔄 স্কোর আসছে...</div>' : ''}`;
   }
 
   if (winner === 1) t1Class = 'winner-team';
@@ -1284,7 +1633,8 @@ function buildResultCard(m) {
       <span class="match-date-badge">${fmtDate(m.date)}</span>
       ${m.group ? `<span class="match-group">গ্রুপ ${m.group}</span>` : `<span class="match-group">${getStageName(m.stage)}</span>`}
       <span class="finished-badge">✓ শেষ</span>
-      ${winner === 1 ? `<span class="winner-badge">🏆 ${m.team1}</span>` : winner === 2 ? `<span class="winner-badge">🏆 ${m.team2}</span>` : winner === 'draw' ? '' : ''}
+      ${winner === 1 ? `<span class="winner-badge">🏆 ${m.team1}</span>` : winner === 2 ? `<span class="winner-badge">🏆 ${m.team2}</span>` : winner === 'draw' ? '<span class="winner-badge" style="background:#2a4060;color:var(--muted);border-color:var(--border);">🤝 ড্র</span>' : ''}
+      ${isApiConnected ? `<span class="loading-badge">⚡ Auto</span>` : ''}
     </div>
     <div class="match-body">
       <div class="team ${t1Class}">
@@ -1344,17 +1694,14 @@ function renderSchedule() {
     return;
   }
 
-  // Group by stage then date
   let html = '';
   let lastStage = null;
-  let lastDate = null;
 
   filtered.forEach(m => {
     const stageLabel = getStageName(m.stage);
     if (m.stage !== lastStage) {
       html += `<div class="stage-header"><div class="stage-line"></div><div class="stage-title">${stageLabel}</div><div class="stage-line"></div></div>`;
       lastStage = m.stage;
-      lastDate = null;
     }
     html += buildCard(m);
   });
@@ -1378,70 +1725,215 @@ function renderResults() {
   const el = document.getElementById('resultList');
   const teamF = document.getElementById('resultTeamFilter') ? document.getElementById('resultTeamFilter').value : '';
   const stageF = document.getElementById('resultStageFilter') ? document.getElementById('resultStageFilter').value : '';
-  let finished = MATCHES.filter(m => getMatchStatus(m) === 'finished');
+
+  let finished = MATCHES.filter(m => {
+    const status = getMatchStatus(m);
+    return status === 'finished' || API_RESULTS[m.id];
+  });
+
   if (teamF) finished = finished.filter(m => m.team1 === teamF || m.team2 === teamF);
   if (stageF) finished = finished.filter(m => m.stage === stageF);
+
   if (finished.length === 0) {
-    const allFinished = MATCHES.filter(m => getMatchStatus(m) === 'finished');
-    if (allFinished.length === 0) {
-      el.innerHTML = `<div class="empty-state">এখনো কোনো ম্যাচ শেষ হয়নি।<br>টুর্নামেন্ট শুরু হলে এখানে রেজাল্ট দেখা যাবে!</div>`;
-    } else {
-      el.innerHTML = `<div class="empty-state">এই ফিল্টারে কোনো রেজাল্ট নেই।</div>`;
-    }
+    el.innerHTML = `<div class="empty-state">এখনো কোনো ম্যাচ শেষ হয়নি।<br>টুর্নামেন্ট শুরু হলে এখানে রেজাল্ট দেখা যাবে!</div>`;
     return;
   }
+
   let html = `<div class="section-title">সম্পন্ন ম্যাচ <span class="count-badge">${finished.length}টি</span></div>`;
   [...finished].reverse().forEach(m => html += buildResultCard(m));
   el.innerHTML = html;
 }
 
+// ============================================================
+// LIVE TAB – Real Streaming with Multiple Sources
+// ============================================================
+const STREAM_SOURCES = {
+  tsports: {
+    name: 'T Sports',
+    url: 'https://www.tsports.com.bd/live-tv',
+    type: 'iframe',
+    color: '#c8001e',
+    icon: '🎬'
+  },
+  tsports_yt: {
+    name: 'T Sports YouTube',
+    url: 'https://www.youtube.com/embed/live_stream?channel=UCMTb_lqxsI2jqrMNQSfzPWg&autoplay=1&mute=0',
+    type: 'iframe',
+    color: '#ff0000',
+    icon: '▶️'
+  },
+  toffee: {
+    name: 'Toffee Live',
+    url: 'https://www.toffee.live/',
+    type: 'external',
+    color: '#00b894',
+    icon: '📱'
+  },
+  bioscope: {
+    name: 'Bioscope (GP)',
+    url: 'https://www.bioscopeplus.com/',
+    type: 'external',
+    color: '#0066cc',
+    icon: '🟢'
+  },
+  myrobi: {
+    name: 'My Robi',
+    url: 'https://www.myrobi.com/',
+    type: 'external',
+    color: '#e60000',
+    icon: '📡'
+  }
+};
+
+let currentStream = 'tsports_yt';
+
 function renderLive() {
   const el = document.getElementById('liveList');
-  const live = MATCHES.filter(m => getMatchStatus(m) === 'live');
-  if (live.length === 0) {
-    el.innerHTML = `<div class="empty-state">এই মুহূর্তে কোনো ম্যাচ চলছে না।<br><br>📺 Live শুরু হলে এখানে দেখা যাবে!</div>
-    <div class="watch-links-card">
-      <div class="watch-links-title">📺 কোথায় দেখবেন?</div>
-      <div class="watch-links-grid">
-        <a href="https://www.tsports.com.bd/live-tv" target="_blank" class="watch-link-btn tsports">
-          <span>🎬</span> T Sports Live
-        </a>
-        <a href="https://www.youtube.com/@TSportsbd/streams" target="_blank" class="watch-link-btn youtube">
-          <span>▶️</span> T Sports YouTube
-        </a>
-        <a href="https://www.toffee.live/" target="_blank" class="watch-link-btn toffee2">
-          <span>📱</span> Toffee Live
-        </a>
-        <a href="https://www.bioscopeplus.com/" target="_blank" class="watch-link-btn bioscope">
-          <span>🟢</span> Bioscope (GP)
-        </a>
+  const live = MATCHES.filter(m => {
+    const status = getMatchStatus(m);
+    return status === 'live' || status === 'finished';
+  });
+
+  const hasLiveMatch = MATCHES.some(m => getMatchStatus(m) === 'live');
+
+  // Build stream section
+  const streamSection = `
+  <div class="watch-links-card" style="margin-bottom:16px;">
+    <div class="watch-links-title">📺 সরাসরি খেলা দেখুন — বাংলাদেশের অফিসিয়াল সম্প্রচার</div>
+
+    <div class="stream-embed-wrap" id="streamWrap">
+      <div class="stream-loading" id="streamLoading">
+        <div class="stream-loading-spinner"></div>
+        <div class="stream-loading-text">স্ট্রিম লোড হচ্ছে...</div>
       </div>
-      <div style="font-size:11px;color:var(--muted);margin-top:10px;font-family:'Tiro Bangla',serif;">
-        ⚠️ লিংকগুলো বাংলাদেশের অফিসিয়াল ব্রডকাস্টার। ম্যাচ চলাকালীন লাইভ পাওয়া যাবে।
-      </div>
-    </div>`;
-    return;
-  }
-  let html = `<div class="section-title" style="color:var(--red);">🔴 এখন Live চলছে <span class="count-badge">${live.length}টি</span></div>
-  <div class="watch-links-card" style="margin-bottom:12px;">
-    <div class="watch-links-title">📺 এখনই দেখুন</div>
-    <div class="watch-links-grid">
-      <a href="https://www.tsports.com.bd/live-tv" target="_blank" class="watch-link-btn tsports">
-        <span>🎬</span> T Sports Live
-      </a>
-      <a href="https://www.youtube.com/@TSportsbd/streams" target="_blank" class="watch-link-btn youtube">
-        <span>▶️</span> T Sports YouTube
-      </a>
+      <iframe
+        id="liveStreamFrame"
+        src="${STREAM_SOURCES[currentStream].url}"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        allowfullscreen
+        title="Live Stream"
+        onload="hideStreamLoading()"
+        onerror="handleStreamError()"
+      ></iframe>
+    </div>
+
+    <div class="stream-btns">
+      <button class="stream-btn ${currentStream === 'tsports_yt' ? 'active' : ''}" onclick="switchStream('tsports_yt')" id="btn-ts-yt">
+        ▶️ T Sports YouTube
+      </button>
+      <button class="stream-btn ${currentStream === 'tsports' ? 'active' : ''}" onclick="switchStream('tsports')" id="btn-ts">
+        🎬 T Sports Website
+      </button>
+    </div>
+
+    <div class="watch-links-grid" style="margin-top:10px;">
       <a href="https://www.toffee.live/" target="_blank" class="watch-link-btn toffee2">
         <span>📱</span> Toffee Live
       </a>
       <a href="https://www.bioscopeplus.com/" target="_blank" class="watch-link-btn bioscope">
         <span>🟢</span> Bioscope (GP)
       </a>
+      <a href="https://www.myrobi.com/" target="_blank" class="watch-link-btn myrobi">
+        <span>📡</span> My Robi
+      </a>
+      <a href="https://www.tsports.com.bd/live-tv" target="_blank" class="watch-link-btn tsports">
+        <span>🎬</span> T Sports Direct
+      </a>
+    </div>
+
+    <div style="font-size:11px;color:var(--muted);margin-top:10px;font-family:'Tiro Bangla',serif;line-height:1.6;">
+      ⚠️ <strong>বাংলাদেশের অফিসিয়াল ব্রডকাস্টার:</strong> T Sports, Toffee, Bioscope (Grameenphone), My Robi।<br>
+      🔔 ম্যাচ চলাকালীন উপরের লিংকগুলোতে লাইভ পাওয়া যাবে। কিছু লিংক অ্যাপ/সাবস্ক্রিপশন প্রয়োজন হতে পারে।
     </div>
   </div>`;
-  live.forEach(m => html += buildCard(m));
+
+  if (!hasLiveMatch) {
+    el.innerHTML = `<div class="empty-state" style="margin-bottom:16px;">
+      এই মুহূর্তে কোনো ম্যাচ চলছে না।<br>
+      <span style="font-size:12px;">পরবর্তী ম্যাচের জন্য অপেক্ষা করুন অথবা নিচে সরাসরি সম্প্রচার দেখুন!</span>
+    </div>
+    ${streamSection}`;
+    return;
+  }
+
+  let html = `<div class="section-title" style="color:var(--red);">🔴 এখন Live চলছে <span class="count-badge">${live.filter(m => getMatchStatus(m) === 'live').length}টি</span></div>
+  ${streamSection}`;
+
+  live.filter(m => getMatchStatus(m) === 'live').forEach(m => {
+    html += buildCard(m);
+  });
+
   el.innerHTML = html;
+
+  // Re-attach stream events after render
+  setTimeout(() => {
+    const frame = document.getElementById('liveStreamFrame');
+    if (frame) {
+      frame.onload = hideStreamLoading;
+      frame.onerror = handleStreamError;
+    }
+  }, 100);
+}
+
+function hideStreamLoading() {
+  const loading = document.getElementById('streamLoading');
+  if (loading) loading.style.display = 'none';
+}
+
+function handleStreamError() {
+  const loading = document.getElementById('streamLoading');
+  if (loading) {
+    loading.innerHTML = `
+      <div style="text-align:center;color:var(--muted);">
+        <div style="font-size:24px;margin-bottom:8px;">⚠️</div>
+        <div style="font-size:13px;margin-bottom:8px;">এই সোর্সে সমস্যা হচ্ছে</div>
+        <button onclick="switchStream('tsports_yt')" style="background:var(--gold);color:#000;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;font-weight:600;">
+          YouTube-এ চেষ্টা করুন
+        </button>
+      </div>
+    `;
+  }
+}
+
+function switchStream(type) {
+  currentStream = type;
+  const frame = document.getElementById('liveStreamFrame');
+  const loading = document.getElementById('streamLoading');
+
+  if (!frame) {
+    renderLive();
+    return;
+  }
+
+  // Show loading
+  if (loading) {
+    loading.style.display = 'flex';
+    loading.innerHTML = `
+      <div class="stream-loading-spinner"></div>
+      <div class="stream-loading-text">${STREAM_SOURCES[type].name} লোড হচ্ছে...</div>
+    `;
+  }
+
+  // Update buttons
+  document.querySelectorAll('.stream-btn').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.getElementById(type === 'tsports' ? 'btn-ts' : 'btn-ts-yt');
+  if (activeBtn) activeBtn.classList.add('active');
+
+  // Switch source
+  if (STREAM_SOURCES[type].type === 'external') {
+    window.open(STREAM_SOURCES[type].url, '_blank');
+    if (loading) loading.style.display = 'none';
+    return;
+  }
+
+  frame.src = STREAM_SOURCES[type].url;
+
+  // Fallback: if iframe doesn't load in 8 seconds, show error
+  setTimeout(() => {
+    if (loading && loading.style.display !== 'none') {
+      handleStreamError();
+    }
+  }, 8000);
 }
 
 function updateLiveCount() {
@@ -1497,7 +1989,6 @@ function populateDateFilter() {
   sorted.forEach(dateStr => {
     const o = document.createElement('option');
     o.value = dateStr;
-    // Format nicely in Bangla
     const d = new Date(dateStr + 'T00:00:00');
     const days = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
     const months = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
@@ -1520,9 +2011,6 @@ function updateDaysLeft() {
 // PWA MANIFEST (inline)
 // ============================================================
 function setupPWA() {
-  // manifest.json is served as a real file from GitHub Pages — no blob needed
-
-  // ── Is already installed? (standalone display mode or iOS)
   const isInstalled =
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true ||
@@ -1530,25 +2018,21 @@ function setupPWA() {
 
   if (isInstalled) {
     localStorage.setItem('pwa_installed', '1');
-    return; // hide everything — already installed
+    return;
   }
 
-  // ── Always show the header install button (don't wait for browser event)
   document.getElementById('installBtn').classList.add('show');
 
-  // ── Show popup on every fresh page load (not same-session dismissed)
   const sessionDismissed = sessionStorage.getItem('pwa_popup_dismissed');
   if (!sessionDismissed) {
     setTimeout(() => showPwaPopup(), 900);
   }
 
-  // ── Try to capture native browser prompt (works on Chrome/Edge/Android)
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     window._deferredPrompt = e;
   });
 
-  // ── After successful install via native prompt
   window.addEventListener('appinstalled', () => {
     window._deferredPrompt = null;
     localStorage.setItem('pwa_installed', '1');
@@ -1557,7 +2041,6 @@ function setupPWA() {
     showToast('✅ অ্যাপ সফলভাবে ইনস্টল হয়েছে!');
   });
 
-  // ── Button clicks
   document.getElementById('installBtn').addEventListener('click', triggerInstall);
   document.getElementById('popupInstallBtn').addEventListener('click', triggerInstall);
 }
@@ -1578,7 +2061,6 @@ function closePwaPopup() {
 
 function triggerInstall() {
   if (window._deferredPrompt) {
-    // Native browser install prompt available
     window._deferredPrompt.prompt();
     window._deferredPrompt.userChoice.then(choice => {
       if (choice.outcome === 'accepted') {
@@ -1590,21 +2072,17 @@ function triggerInstall() {
       window._deferredPrompt = null;
     });
   } else {
-    // No native prompt (sites.google.com / iOS / already dismissed prompt)
-    // Show manual guide popup
     closePwaPopup();
     showInstallGuide();
   }
 }
 
 function showInstallGuide() {
-  // Detect iOS
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const msg = isIOS
     ? '📲 iOS: Safari-এ নিচের Share বাটন (⬆) চাপুন → "হোম স্ক্রিনে যোগ করুন" বেছে নিন'
     : '📲 Chrome: ব্রাউজার মেনু (⋮) থেকে "অ্যাপ ইনস্টল করুন" বা "হোম স্ক্রিনে যোগ করুন" বেছে নিন';
 
-  // Show a guide toast that stays longer
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
@@ -1615,17 +2093,6 @@ function showInstallGuide() {
 }
 
 // ============================================================
-// LIVE SCORE SIMULATION (for demo)
-// ============================================================
-function simulateLiveScores() {
-  MATCHES.forEach(m => {
-    if (getMatchStatus(m) === 'live' && !RESULTS[m.id]) {
-      RESULTS[m.id] = { score: '0 – 0' };
-    }
-  });
-}
-
-// ============================================================
 // INIT
 // ============================================================
 updateDaysLeft();
@@ -1633,35 +2100,67 @@ populateTeamFilter();
 populateDateFilter();
 setupPWA();
 updateFavCount();
-simulateLiveScores();
 render();
 
-// Auto-refresh every 30 seconds
+// Fetch scores immediately and every 30 seconds during tournament
+fetchLiveScores();
 setInterval(() => {
-  simulateLiveScores();
-  render();
+  fetchLiveScores();
 }, 30000);
 
-// Service Worker for offline caching
-// Note: On sites.google.com, SW registration via blob URL is blocked.
-// We use a data: URI approach as fallback; works best when hosted on own domain.
-// Service Worker registration using real file (required for PWA install)
+// Re-render every 10s for live status changes
+setInterval(() => {
+  render();
+  updateLiveCount();
+}, 10000);
+
+// ============================================================
+// SERVICE WORKER — Auto Update for Existing Installs
+// ============================================================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/fifa2026/sw.js')
       .then(reg => {
-        // Force update if new version available
+        console.log('SW registered:', reg.scope);
+
+        // Check for updates every 5 minutes
+        setInterval(() => {
+          reg.update();
+        }, 300000);
+
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              newWorker.postMessage({ type: 'SKIP_WAITING' });
+              showUpdateBanner();
             }
           });
         });
       })
-      .catch(() => {});
+      .catch(err => console.log('SW registration failed:', err));
+
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data && e.data.type === 'SW_UPDATED') {
+        setTimeout(() => showUpdateBanner(), 1000);
+      }
+    });
   });
+}
+
+function showUpdateBanner() {
+  if (document.getElementById('updateBanner')) return;
+  const banner = document.createElement('div');
+  banner.id = 'updateBanner';
+  banner.innerHTML = `<span>🆕 নতুন আপডেট পাওয়া গেছে!</span>
+    <button onclick="applyUpdate()">রিলোড করুন</button>`;
+  document.body.appendChild(banner);
+}
+
+function applyUpdate() {
+  if (navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+  }
+  setTimeout(() => window.location.reload(true), 300);
 }
 </script>
 </body>
