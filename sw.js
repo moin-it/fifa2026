@@ -1,9 +1,10 @@
 // ⚠️ Version bump করলেই পুরনো ইনস্টল করা PWA আপনাআপনি update হবে
-const CACHE = 'fifa26-v7';
+const CACHE = 'fifa26-v8';
 const ASSETS = [
   '/fifa2026/',
   '/fifa2026/index.html',
   '/fifa2026/manifest.json',
+  '/fifa2026/scores.json',
   '/fifa2026/icon-192.png',
   '/fifa2026/icon-512.png'
 ];
@@ -46,6 +47,19 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
 
   const url = new URL(e.request.url);
+
+  // scores.json ক্যাশ করব না — সবসময় fresh নেব
+  if (url.pathname.endsWith('scores.json')) {
+    e.respondWith(
+      fetch(e.request, { cache: 'no-store' }).catch(() => 
+        caches.match(e.request).then(cached => cached || new Response('{}', { 
+          status: 200, 
+          headers: { 'Content-Type': 'application/json' }
+        }))
+      )
+    );
+    return;
+  }
 
   // Score API calls ক্যাশ করব না — সবসময় network থেকে নেব
   if (url.hostname.includes('football-data.org') ||

@@ -899,6 +899,51 @@ body {
   font-size: 12px;
   white-space: nowrap;
 }
+
+/* Score source indicator */
+.score-source {
+  font-size: 9px;
+  color: var(--muted);
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+/* No score message */
+.no-score-msg {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: 'Tiro Bangla', serif;
+}
+
+/* Tournament status banner */
+.tournament-status {
+  background: linear-gradient(135deg, #1a3a60, #0d2040);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Tiro Bangla', serif;
+  font-size: 13px;
+}
+.tournament-status-icon {
+  font-size: 24px;
+}
+.tournament-status-text {
+  flex: 1;
+}
+.tournament-status-title {
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.tournament-status-sub {
+  color: var(--muted);
+  font-size: 11px;
+}
 </style>
 </head>
 <body>
@@ -930,6 +975,15 @@ body {
 <div class="main pb-nav">
 
   <div class="page active" id="page-schedule">
+    <!-- Tournament Status Banner -->
+    <div class="tournament-status" id="tournamentStatus">
+      <div class="tournament-status-icon">🏆</div>
+      <div class="tournament-status-text">
+        <div class="tournament-status-title">FIFA World Cup 2026</div>
+        <div class="tournament-status-sub">টুর্নামেন্ট শুরু হচ্ছে ১২ জুন, ২০২৬ · স্কোর ম্যাচ শুরুর পর অটো আপডেট হবে</div>
+      </div>
+    </div>
+
     <div class="info-banner">
       <div class="info-stat">
         <div class="info-num">104</div>
@@ -1175,68 +1229,37 @@ const MATCHES = [
   {id:104,date:"2026-07-20",time:"01:00",team1:"TBD",team2:"TBD",stage:"Final",venue:"East Rutherford (MetLife Stadium)"},
 ];
 
+// ============================================================
+// SCORE SYSTEM - Multiple sources with proper fallback
+// ============================================================
 let RESULTS = {};
-let API_RESULTS = {}; // Real-time API results
+let API_RESULTS = {};
+let MANUAL_RESULTS = {}; // For scores.json from same repo
 let isApiConnected = false;
 let lastApiFetch = 0;
+let apiFailCount = 0;
 
 const TEAM_NAME_MAP = {
-  'Mexico': 'Mexico',
-  'South Africa': 'South Africa',
-  'Korea Republic': 'South Korea',
-  'Czech Republic': 'Czechia',
-  'Czechia': 'Czechia',
-  'Canada': 'Canada',
-  'Bosnia and Herzegovina': 'Bosnia & Herzegovina',
-  'Bosnia-Herzegovina': 'Bosnia & Herzegovina',
-  'USA': 'United States',
-  'United States': 'United States',
-  'Paraguay': 'Paraguay',
-  'Qatar': 'Qatar',
-  'Switzerland': 'Switzerland',
-  'Brazil': 'Brazil',
-  'Morocco': 'Morocco',
-  'Haiti': 'Haiti',
-  'Scotland': 'Scotland',
-  'Australia': 'Australia',
-  'Turkey': 'Türkiye',
-  'Türkiye': 'Türkiye',
-  'Germany': 'Germany',
-  'Curaçao': 'Curaçao',
-  'Curacao': 'Curaçao',
-  'Netherlands': 'Netherlands',
-  'Japan': 'Japan',
-  'Ivory Coast': 'Ivory Coast',
-  "Côte d'Ivoire": 'Ivory Coast',
-  'Ecuador': 'Ecuador',
-  'Sweden': 'Sweden',
-  'Tunisia': 'Tunisia',
-  'Spain': 'Spain',
-  'Cape Verde': 'Cape Verde',
-  'Cabo Verde': 'Cape Verde',
-  'Belgium': 'Belgium',
-  'Egypt': 'Egypt',
-  'Saudi Arabia': 'Saudi Arabia',
-  'Uruguay': 'Uruguay',
-  'Iran': 'Iran',
-  'New Zealand': 'New Zealand',
-  'France': 'France',
-  'Senegal': 'Senegal',
-  'Iraq': 'Iraq',
-  'Norway': 'Norway',
-  'Argentina': 'Argentina',
-  'Algeria': 'Algeria',
-  'Austria': 'Austria',
-  'Jordan': 'Jordan',
-  'Portugal': 'Portugal',
-  'DR Congo': 'DR Congo',
-  'Congo DR': 'DR Congo',
-  'England': 'England',
-  'Croatia': 'Croatia',
-  'Ghana': 'Ghana',
-  'Panama': 'Panama',
-  'Uzbekistan': 'Uzbekistan',
-  'Colombia': 'Colombia',
+  'Mexico': 'Mexico', 'South Africa': 'South Africa',
+  'Korea Republic': 'South Korea', 'Czech Republic': 'Czechia', 'Czechia': 'Czechia',
+  'Canada': 'Canada', 'Bosnia and Herzegovina': 'Bosnia & Herzegovina',
+  'Bosnia-Herzegovina': 'Bosnia & Herzegovina', 'USA': 'United States',
+  'United States': 'United States', 'United States of America': 'United States',
+  'Paraguay': 'Paraguay', 'Qatar': 'Qatar', 'Switzerland': 'Switzerland',
+  'Brazil': 'Brazil', 'Morocco': 'Morocco', 'Haiti': 'Haiti', 'Scotland': 'Scotland',
+  'Australia': 'Australia', 'Turkey': 'Türkiye', 'Türkiye': 'Türkiye',
+  'Germany': 'Germany', 'Curaçao': 'Curaçao', 'Curacao': 'Curaçao',
+  'Netherlands': 'Netherlands', 'The Netherlands': 'Netherlands', 'Japan': 'Japan',
+  'Ivory Coast': 'Ivory Coast', "Côte d'Ivoire": 'Ivory Coast', "Cote d'Ivoire": 'Ivory Coast',
+  'Ecuador': 'Ecuador', 'Sweden': 'Sweden', 'Tunisia': 'Tunisia',
+  'Spain': 'Spain', 'Cape Verde': 'Cape Verde', 'Cabo Verde': 'Cape Verde',
+  'Belgium': 'Belgium', 'Egypt': 'Egypt', 'Saudi Arabia': 'Saudi Arabia',
+  'Uruguay': 'Uruguay', 'Iran': 'Iran', 'IR Iran': 'Iran', 'New Zealand': 'New Zealand',
+  'France': 'France', 'Senegal': 'Senegal', 'Iraq': 'Iraq', 'Norway': 'Norway',
+  'Argentina': 'Argentina', 'Algeria': 'Algeria', 'Austria': 'Austria', 'Jordan': 'Jordan',
+  'Portugal': 'Portugal', 'DR Congo': 'DR Congo', 'Congo DR': 'DR Congo',
+  'England': 'England', 'Croatia': 'Croatia', 'Ghana': 'Ghana', 'Panama': 'Panama',
+  'Uzbekistan': 'Uzbekistan', 'Colombia': 'Colombia'
 };
 
 function buildTeamMatchMap() {
@@ -1252,65 +1275,71 @@ function buildTeamMatchMap() {
 }
 
 // ============================================================
-// MULTI-API SCORE FETCHING SYSTEM
+// FETCH SCORES - Try multiple sources
 // ============================================================
 async function fetchLiveScores() {
   const now = Date.now();
-  if (now - lastApiFetch < 15000) return; // Minimum 15s between fetches
+  if (now - lastApiFetch < 20000) return; // 20s minimum
   lastApiFetch = now;
 
-  updateApiStatus('syncing', 'স্কোর আপডেট হচ্ছে...');
+  updateApiStatus('syncing', 'স্কোর চেক হচ্ছে...');
+  let anySuccess = false;
 
-  let success = false;
-
-  // Try API 1: football-data.org (free tier)
+  // SOURCE 1: Local scores.json (same repo - most reliable for GitHub Pages)
   try {
-    const res = await fetch('https://api.football-data.org/v4/competitions/2000/matches?status=FINISHED,LIVE,IN_PLAY,PAUSED,SCHEDULED', {
-      headers: { 'X-Auth-Token': '' },
-      signal: AbortSignal.timeout(8000)
+    const res = await fetch('scores.json?t=' + now, { 
+      signal: AbortSignal.timeout(5000),
+      cache: 'no-store'
     });
     if (res.ok) {
       const data = await res.json();
-      processApiData(data, 'football-data');
-      success = true;
+      if (data && data.scores) {
+        Object.assign(MANUAL_RESULTS, data.scores);
+        anySuccess = true;
+      }
     }
   } catch (e) {}
 
-  // Try API 2: TheSportsDB (free)
-  if (!success) {
+  // SOURCE 2: football-data.org (free tier)
+  if (!anySuccess) {
     try {
-      const res2 = await fetch('https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4436&s=2026', {
+      const res = await fetch('https://api.football-data.org/v4/competitions/2000/matches?status=FINISHED,LIVE,IN_PLAY,PAUSED', {
+        headers: { 'X-Auth-Token': '' },
         signal: AbortSignal.timeout(8000)
       });
-      if (res2.ok) {
-        const d2 = await res2.json();
-        processSportsDbData(d2);
-        success = true;
+      if (res.ok) {
+        const data = await res.json();
+        processApiData(data, 'football-data');
+        anySuccess = true;
       }
-    } catch (e2) {}
+    } catch (e) {}
   }
 
-  // Try API 3: Zafronix (free tier for World Cup)
-  if (!success) {
+  // SOURCE 3: TheSportsDB
+  if (!anySuccess) {
     try {
-      const res3 = await fetch('https://api.zafronix.com/v1/football/competitions/2000/matches', {
+      const res = await fetch('https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4436&s=2026', {
         signal: AbortSignal.timeout(8000)
       });
-      if (res3.ok) {
-        const d3 = await res3.json();
-        processApiData(d3, 'zafronix');
-        success = true;
+      if (res.ok) {
+        const data = await res.json();
+        processSportsDbData(data);
+        anySuccess = true;
       }
-    } catch (e3) {}
+    } catch (e) {}
   }
 
-  if (success) {
+  if (anySuccess) {
+    apiFailCount = 0;
     isApiConnected = true;
-    updateApiStatus('online', 'Live স্কোর চলছে');
+    updateApiStatus('online', 'স্কোর আপডেট হচ্ছে');
     render();
   } else {
-    isApiConnected = false;
-    updateApiStatus('offline', 'অফলাইন মোড');
+    apiFailCount++;
+    if (apiFailCount > 3) {
+      isApiConnected = false;
+      updateApiStatus('offline', 'অফলাইন মোড');
+    }
   }
 }
 
@@ -1330,17 +1359,12 @@ function processApiData(data, source) {
     const g2 = apiMatch.score?.fullTime?.away ?? apiMatch.score?.regularTime?.away;
 
     if (g1 !== null && g1 !== undefined && g2 !== null && g2 !== undefined) {
-      const oldScore = API_RESULTS[matchId]?.score;
       const newScore = `${g1} – ${g2}`;
+      const oldScore = API_RESULTS[matchId]?.score;
 
       API_RESULTS[matchId] = { 
-        score: newScore,
-        status: status,
-        source: source,
-        updated: Date.now()
+        score: newScore, status: status, source: source, updated: Date.now()
       };
-
-      // Also update RESULTS for compatibility
       RESULTS[matchId] = { score: newScore };
 
       if (apiMatch.score?.penalties?.home !== null && apiMatch.score?.penalties?.home !== undefined) {
@@ -1348,10 +1372,7 @@ function processApiData(data, source) {
         RESULTS[matchId].pens = API_RESULTS[matchId].pens;
       }
 
-      // Trigger score update animation if score changed
-      if (oldScore && oldScore !== newScore) {
-        triggerScoreAnimation(matchId);
-      }
+      if (oldScore && oldScore !== newScore) triggerScoreAnimation(matchId);
     }
   });
 }
@@ -1370,25 +1391,24 @@ function processSportsDbData(data) {
 
     const g1 = parseInt(ev.intHomeScore);
     const g2 = parseInt(ev.intAwayScore);
-
     if (!isNaN(g1) && !isNaN(g2)) {
-      const oldScore = API_RESULTS[matchId]?.score;
       const newScore = `${g1} – ${g2}`;
+      const oldScore = API_RESULTS[matchId]?.score;
 
-      API_RESULTS[matchId] = {
-        score: newScore,
-        status: ev.strStatus || 'FINISHED',
-        source: 'thesportsdb',
-        updated: Date.now()
-      };
-
+      API_RESULTS[matchId] = { score: newScore, status: ev.strStatus || 'FINISHED', source: 'thesportsdb', updated: Date.now() };
       RESULTS[matchId] = { score: newScore };
 
-      if (oldScore && oldScore !== newScore) {
-        triggerScoreAnimation(matchId);
-      }
+      if (oldScore && oldScore !== newScore) triggerScoreAnimation(matchId);
     }
   });
+}
+
+function getMatchResult(matchId) {
+  // Priority: Manual (scores.json) > API > Hardcoded > null
+  if (MANUAL_RESULTS[matchId]) return MANUAL_RESULTS[matchId];
+  if (API_RESULTS[matchId]) return API_RESULTS[matchId];
+  if (RESULTS[matchId]) return RESULTS[matchId];
+  return null;
 }
 
 function triggerScoreAnimation(matchId) {
@@ -1403,23 +1423,18 @@ function updateApiStatus(status, text) {
   const statusEl = document.getElementById('apiStatus');
   const dotEl = document.getElementById('apiDot');
   const textEl = document.getElementById('apiText');
-
   if (!statusEl) return;
-
   statusEl.style.display = 'inline-flex';
   dotEl.className = 'api-status-dot ' + status;
   textEl.textContent = text;
 }
 
 // ============================================================
-// STATE
+// STATE & HELPERS
 // ============================================================
 let favorites = JSON.parse(localStorage.getItem('wc26_favs') || '[]');
 let currentPage = 'schedule';
 
-// ============================================================
-// HELPERS
-// ============================================================
 function fmtDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00');
   const days = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
@@ -1443,11 +1458,11 @@ function getMatchStatus(m) {
   const start = getMatchDateTime(m);
   const end = new Date(start.getTime() + 105*60*1000);
 
-  // Check API status first
-  const apiResult = API_RESULTS[m.id];
-  if (apiResult) {
-    if (apiResult.status === 'IN_PLAY' || apiResult.status === 'LIVE' || apiResult.status === 'PAUSED') return 'live';
-    if (apiResult.status === 'FINISHED' || apiResult.status === 'FINISHED') return 'finished';
+  // Check manual/API results first
+  const result = getMatchResult(m.id);
+  if (result) {
+    if (result.status === 'IN_PLAY' || result.status === 'LIVE' || result.status === 'PAUSED') return 'live';
+    if (result.status === 'FINISHED') return 'finished';
   }
 
   if (now < start) return 'upcoming';
@@ -1469,7 +1484,7 @@ function toggleFav(id) {
   } else {
     favorites.push(id);
     scheduleReminder(id);
-    showToast('⭐ ফেভারিটে যোগ করা হয়েছে! রিমাইন্ডার সেট হবে।');
+    showToast('⭐ ফেভারিটে যোগ করা হয়েছে!');
   }
   localStorage.setItem('wc26_favs', JSON.stringify(favorites));
   updateFavCount();
@@ -1508,7 +1523,7 @@ function scheduleReminder(matchId) {
 }
 
 // ============================================================
-// CARD BUILDER - with auto-updating scores
+// CARD BUILDERS
 // ============================================================
 function buildCard(m) {
   const status = getMatchStatus(m);
@@ -1516,8 +1531,9 @@ function buildCard(m) {
   const f1 = FLAGS[m.team1] || '🏳️';
   const f2 = FLAGS[m.team2] || '🏳️';
   const isTBD = m.team1 === 'TBD';
-  const result = API_RESULTS[m.id] || RESULTS[m.id];
-  const isApiLive = API_RESULTS[m.id] && (API_RESULTS[m.id].status === 'IN_PLAY' || API_RESULTS[m.id].status === 'LIVE');
+  const result = getMatchResult(m.id);
+  const isApiLive = result && (result.status === 'IN_PLAY' || result.status === 'LIVE' || result.status === 'PAUSED');
+  const hasScore = result && result.score;
 
   let statusBadge = '';
   if (isApiLive || status === 'live') {
@@ -1527,14 +1543,13 @@ function buildCard(m) {
   }
 
   let scoreHtml = '';
-  if (isApiLive || status === 'live') {
-    if (result && result.score) {
-      scoreHtml = `<div class="score" id="score-${m.id}">${result.score}</div>`;
-    } else {
-      scoreHtml = `<div class="score" id="score-${m.id}">0 – 0</div>`;
-    }
-  } else if ((status === 'finished' || status === 'live') && result) {
+  if (isApiLive || (status === 'live' && hasScore)) {
+    scoreHtml = `<div class="score" id="score-${m.id}">${hasScore ? result.score : '0 – 0'}</div>`;
+  } else if ((status === 'finished' || status === 'live') && hasScore) {
     scoreHtml = `<div class="score" id="score-${m.id}">${result.score}</div>`;
+  } else if (status === 'finished' && !hasScore) {
+    // Match finished but no score yet - show message instead of ?-?
+    scoreHtml = `<div class="vs-text">VS</div><div class="kick-time">${fmtTime(m.time)}</div><div class="no-score-msg">🔄 স্কোর আসছে...</div>`;
   } else {
     scoreHtml = `<div class="vs-text">VS</div><div class="kick-time">${fmtTime(m.time)}</div><div class="kick-sub">BDT</div>`;
   }
@@ -1545,14 +1560,15 @@ function buildCard(m) {
   }
 
   const nameClass = m.team1.length > 10 ? 'team-name small' : 'team-name';
+  const liveClass = isApiLive || status === 'live' ? 'live' : '';
 
   return `
-  <div class="match-card ${isApiLive || status === 'live' ? 'live' : ''} ${fav ? 'favorite' : ''}" id="card-${m.id}">
+  <div class="match-card ${liveClass} ${fav ? 'favorite' : ''}" id="card-${m.id}">
     <div class="match-top">
       <span class="match-date-badge">${fmtDate(m.date)}</span>
       ${m.group ? `<span class="match-group">গ্রুপ ${m.group}</span>` : `<span class="match-group">${getStageName(m.stage)}</span>`}
       ${statusBadge}
-      ${isApiLive ? `<span class="loading-badge">⚡ Auto</span>` : ''}
+      ${hasScore ? `<span class="loading-badge">⚡ Auto</span>` : ''}
     </div>
     <div class="match-body">
       <div class="team">
@@ -1584,22 +1600,19 @@ function watchLive(id) {
   showToast('📺 Live ট্যাবে সরাসরি সম্প্রচার দেখুন!');
 }
 
-// ============================================================
-// RESULT CARD – with auto-updating scores
-// ============================================================
 function buildResultCard(m) {
   const fav = isFav(m.id);
   const f1 = FLAGS[m.team1] || '🏳️';
   const f2 = FLAGS[m.team2] || '🏳️';
   const isTBD = m.team1 === 'TBD';
-  const result = API_RESULTS[m.id] || RESULTS[m.id];
-  const isApiConnected = API_RESULTS[m.id] !== undefined;
+  const result = getMatchResult(m.id);
+  const hasScore = result && result.score;
 
   let scoreHtml = '';
   let winner = null;
   let t1Class = '', t2Class = '';
 
-  if (result && result.score) {
+  if (hasScore) {
     const parts = result.score.split(/\s*[–\-]\s*/);
     const g1 = parseInt(parts[0]);
     const g2 = parseInt(parts[1]);
@@ -1618,14 +1631,16 @@ function buildResultCard(m) {
     ${winner === 'draw' ? '<div class="result-draw-badge">ড্র</div>' : ''}
     ${result.pens ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">(পেনাল্টি: ${result.pens})</div>` : ''}`;
   } else {
-    scoreHtml = `<div class="result-score-wrap"><span class="result-goal" style="color:var(--muted);">?</span><span class="result-dash">–</span><span class="result-goal" style="color:var(--muted);">?</span></div>
-    ${!isApiConnected ? '<div style="font-size:10px;color:var(--muted);margin-top:4px;">🔄 স্কোর আসছে...</div>' : ''}`;
+    // No score available - show time instead of ?-?
+    scoreHtml = `<div class="vs-text">VS</div><div class="kick-time">${fmtTime(m.time)}</div>
+    <div class="no-score-msg" style="margin-top:4px;">🔄 স্কোর আসছে...</div>`;
   }
 
   if (winner === 1) t1Class = 'winner-team';
   if (winner === 2) t2Class = 'winner-team';
 
   const nameClass = m.team1.length > 10 ? 'team-name small' : 'team-name';
+  const scoreSource = result ? `<span class="loading-badge">⚡ ${result.source || 'Auto'}</span>` : '';
 
   return `
   <div class="match-card finished result-card ${fav ? 'favorite' : ''}" id="card-${m.id}">
@@ -1634,7 +1649,7 @@ function buildResultCard(m) {
       ${m.group ? `<span class="match-group">গ্রুপ ${m.group}</span>` : `<span class="match-group">${getStageName(m.stage)}</span>`}
       <span class="finished-badge">✓ শেষ</span>
       ${winner === 1 ? `<span class="winner-badge">🏆 ${m.team1}</span>` : winner === 2 ? `<span class="winner-badge">🏆 ${m.team2}</span>` : winner === 'draw' ? '<span class="winner-badge" style="background:#2a4060;color:var(--muted);border-color:var(--border);">🤝 ড্র</span>' : ''}
-      ${isApiConnected ? `<span class="loading-badge">⚡ Auto</span>` : ''}
+      ${scoreSource}
     </div>
     <div class="match-body">
       <div class="team ${t1Class}">
@@ -1661,7 +1676,7 @@ function buildResultCard(m) {
 }
 
 // ============================================================
-// RENDER
+// RENDER FUNCTIONS
 // ============================================================
 function render() {
   renderSchedule();
@@ -1698,9 +1713,8 @@ function renderSchedule() {
   let lastStage = null;
 
   filtered.forEach(m => {
-    const stageLabel = getStageName(m.stage);
     if (m.stage !== lastStage) {
-      html += `<div class="stage-header"><div class="stage-line"></div><div class="stage-title">${stageLabel}</div><div class="stage-line"></div></div>`;
+      html += `<div class="stage-header"><div class="stage-line"></div><div class="stage-title">${getStageName(m.stage)}</div><div class="stage-line"></div></div>`;
       lastStage = m.stage;
     }
     html += buildCard(m);
@@ -1728,7 +1742,7 @@ function renderResults() {
 
   let finished = MATCHES.filter(m => {
     const status = getMatchStatus(m);
-    return status === 'finished' || API_RESULTS[m.id];
+    return status === 'finished' || getMatchResult(m.id);
   });
 
   if (teamF) finished = finished.filter(m => m.team1 === teamF || m.team2 === teamF);
@@ -1745,16 +1759,9 @@ function renderResults() {
 }
 
 // ============================================================
-// LIVE TAB – Real Streaming with Multiple Sources
+// LIVE TAB - Streaming
 // ============================================================
 const STREAM_SOURCES = {
-  tsports: {
-    name: 'T Sports',
-    url: 'https://www.tsports.com.bd/live-tv',
-    type: 'iframe',
-    color: '#c8001e',
-    icon: '🎬'
-  },
   tsports_yt: {
     name: 'T Sports YouTube',
     url: 'https://www.youtube.com/embed/live_stream?channel=UCMTb_lqxsI2jqrMNQSfzPWg&autoplay=1&mute=0',
@@ -1762,26 +1769,12 @@ const STREAM_SOURCES = {
     color: '#ff0000',
     icon: '▶️'
   },
-  toffee: {
-    name: 'Toffee Live',
-    url: 'https://www.toffee.live/',
-    type: 'external',
-    color: '#00b894',
-    icon: '📱'
-  },
-  bioscope: {
-    name: 'Bioscope (GP)',
-    url: 'https://www.bioscopeplus.com/',
-    type: 'external',
-    color: '#0066cc',
-    icon: '🟢'
-  },
-  myrobi: {
-    name: 'My Robi',
-    url: 'https://www.myrobi.com/',
-    type: 'external',
-    color: '#e60000',
-    icon: '📡'
+  tsports: {
+    name: 'T Sports Website',
+    url: 'https://www.tsports.com.bd/live-tv',
+    type: 'iframe',
+    color: '#c8001e',
+    icon: '🎬'
   }
 };
 
@@ -1789,14 +1782,9 @@ let currentStream = 'tsports_yt';
 
 function renderLive() {
   const el = document.getElementById('liveList');
-  const live = MATCHES.filter(m => {
-    const status = getMatchStatus(m);
-    return status === 'live' || status === 'finished';
-  });
+  const liveMatches = MATCHES.filter(m => getMatchStatus(m) === 'live');
+  const hasLiveMatch = liveMatches.length > 0;
 
-  const hasLiveMatch = MATCHES.some(m => getMatchStatus(m) === 'live');
-
-  // Build stream section
   const streamSection = `
   <div class="watch-links-card" style="margin-bottom:16px;">
     <div class="watch-links-title">📺 সরাসরি খেলা দেখুন — বাংলাদেশের অফিসিয়াল সম্প্রচার</div>
@@ -1856,16 +1844,15 @@ function renderLive() {
     return;
   }
 
-  let html = `<div class="section-title" style="color:var(--red);">🔴 এখন Live চলছে <span class="count-badge">${live.filter(m => getMatchStatus(m) === 'live').length}টি</span></div>
+  let html = `<div class="section-title" style="color:var(--red);">🔴 এখন Live চলছে <span class="count-badge">${liveMatches.length}টি</span></div>
   ${streamSection}`;
 
-  live.filter(m => getMatchStatus(m) === 'live').forEach(m => {
+  liveMatches.forEach(m => {
     html += buildCard(m);
   });
 
   el.innerHTML = html;
 
-  // Re-attach stream events after render
   setTimeout(() => {
     const frame = document.getElementById('liveStreamFrame');
     if (frame) {
@@ -1905,7 +1892,6 @@ function switchStream(type) {
     return;
   }
 
-  // Show loading
   if (loading) {
     loading.style.display = 'flex';
     loading.innerHTML = `
@@ -1914,26 +1900,17 @@ function switchStream(type) {
     `;
   }
 
-  // Update buttons
   document.querySelectorAll('.stream-btn').forEach(btn => btn.classList.remove('active'));
   const activeBtn = document.getElementById(type === 'tsports' ? 'btn-ts' : 'btn-ts-yt');
   if (activeBtn) activeBtn.classList.add('active');
 
-  // Switch source
-  if (STREAM_SOURCES[type].type === 'external') {
-    window.open(STREAM_SOURCES[type].url, '_blank');
-    if (loading) loading.style.display = 'none';
-    return;
-  }
-
   frame.src = STREAM_SOURCES[type].url;
 
-  // Fallback: if iframe doesn't load in 8 seconds, show error
   setTimeout(() => {
     if (loading && loading.style.display !== 'none') {
       handleStreamError();
     }
-  }, 8000);
+  }, 10000);
 }
 
 function updateLiveCount() {
@@ -1960,7 +1937,7 @@ function switchTab(tab) {
 }
 
 // ============================================================
-// TEAM FILTER POPULATION
+// FILTER POPULATION
 // ============================================================
 function populateTeamFilter() {
   const teams = new Set();
@@ -1998,17 +1975,39 @@ function populateDateFilter() {
 }
 
 // ============================================================
-// DAYS LEFT
+// DAYS LEFT & TOURNAMENT STATUS
 // ============================================================
 function updateDaysLeft() {
   const start = new Date('2026-06-12T01:00:00+06:00');
   const now = new Date();
   const diff = Math.ceil((start - now) / 86400000);
   document.getElementById('daysLeft').textContent = diff > 0 ? diff : '🎉';
+
+  // Update tournament status banner
+  const statusEl = document.getElementById('tournamentStatus');
+  if (statusEl) {
+    if (diff > 0) {
+      statusEl.innerHTML = `
+        <div class="tournament-status-icon">🏆</div>
+        <div class="tournament-status-text">
+          <div class="tournament-status-title">FIFA World Cup 2026</div>
+          <div class="tournament-status-sub">টুর্নামেন্ট শুরু হচ্ছে ১২ জুন, ২০২৬ · আর ${diff} দিন বাকি · স্কোর ম্যাচ শুরুর পর অটো আপডেট হবে</div>
+        </div>
+      `;
+    } else {
+      statusEl.innerHTML = `
+        <div class="tournament-status-icon">⚽</div>
+        <div class="tournament-status-text">
+          <div class="tournament-status-title" style="color:var(--green);">FIFA World Cup 2026 চলছে!</div>
+          <div class="tournament-status-sub">Live স্কোর ও সম্প্রচার অটো আপডেট হচ্ছে · প্রতি ৩০ সেকেন্ডে রিফ্রেশ</div>
+        </div>
+      `;
+    }
+  }
 }
 
 // ============================================================
-// PWA MANIFEST (inline)
+// PWA SETUP
 // ============================================================
 function setupPWA() {
   const isInstalled =
@@ -2102,20 +2101,21 @@ setupPWA();
 updateFavCount();
 render();
 
-// Fetch scores immediately and every 30 seconds during tournament
+// Fetch scores every 30 seconds
 fetchLiveScores();
 setInterval(() => {
   fetchLiveScores();
 }, 30000);
 
-// Re-render every 10s for live status changes
+// Re-render every 10s for status changes
 setInterval(() => {
   render();
   updateLiveCount();
+  updateDaysLeft();
 }, 10000);
 
 // ============================================================
-// SERVICE WORKER — Auto Update for Existing Installs
+// SERVICE WORKER
 // ============================================================
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

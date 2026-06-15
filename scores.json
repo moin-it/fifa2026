@@ -1,0 +1,8 @@
+{
+  "scores": {
+    "1": { "score": "2 – 1", "status": "FINISHED", "source": "manual" },
+    "2": { "score": "0 – 0", "status": "FINISHED", "source": "manual" }
+  },
+  "lastUpdated": "2026-06-15T20:00:00Z",
+  "note": "Add match scores here. Key = match ID from index.html. Update this file and push to GitHub - scores will auto-load within 30 seconds."
+}
