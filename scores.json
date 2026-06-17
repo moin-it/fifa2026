@@ -1,8 +1,26 @@
 {
   "scores": {
-    "1": { "score": "2 – 1", "status": "FINISHED", "source": "manual" },
-    "2": { "score": "0 – 0", "status": "FINISHED", "source": "manual" }
+    "1":  { "score": "2 – 0", "status": "FINISHED", "source": "manual" },
+    "2":  { "score": "2 – 1", "status": "FINISHED", "source": "manual" },
+    "3":  { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
+    "4":  { "score": "4 – 1", "status": "FINISHED", "source": "manual" },
+    "5":  { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
+    "6":  { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
+    "7":  { "score": "0 – 1", "status": "FINISHED", "source": "manual" },
+    "8":  { "score": "2 – 0", "status": "FINISHED", "source": "manual" },
+    "9":  { "score": "7 – 1", "status": "FINISHED", "source": "manual" },
+    "10": { "score": "2 – 2", "status": "FINISHED", "source": "manual" },
+    "11": { "score": "1 – 0", "status": "FINISHED", "source": "manual" },
+    "12": { "score": "5 – 1", "status": "FINISHED", "source": "manual" },
+    "13": { "score": "0 – 0", "status": "FINISHED", "source": "manual" },
+    "14": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
+    "15": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
+    "16": { "score": "2 – 2", "status": "FINISHED", "source": "manual" },
+    "17": { "score": "3 – 1", "status": "FINISHED", "source": "manual" },
+    "18": { "score": "1 – 4", "status": "FINISHED", "source": "manual" },
+    "19": { "score": "3 – 0", "status": "FINISHED", "source": "manual" },
+    "20": { "score": "3 – 1", "status": "FINISHED", "source": "manual" }
   },
-  "lastUpdated": "2026-06-15T22:00:00Z",
+  "lastUpdated": "2026-06-17T14:00:00Z",
   "note": "Add match scores here. Key = match ID from index.html. Update this file and push to GitHub - scores will auto-load within 30 seconds. SW cache is bypassed for this file."
 }
