@@ -1,39 +1,276 @@
 {
   "scores": {
-    "1": { "score": "2 – 0", "status": "FINISHED", "source": "manual" },
-    "2": { "score": "2 – 1", "status": "FINISHED", "source": "manual" },
-    "3": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
-    "4": { "score": "4 – 1", "status": "FINISHED", "source": "manual" },
-    "5": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
-    "6": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
-    "7": { "score": "0 – 1", "status": "FINISHED", "source": "manual" },
-    "8": { "score": "2 – 0", "status": "FINISHED", "source": "manual" },
-    "9": { "score": "7 – 1", "status": "FINISHED", "source": "manual" },
-    "10": { "score": "2 – 2", "status": "FINISHED", "source": "manual" },
-    "11": { "score": "1 – 0", "status": "FINISHED", "source": "manual" },
-    "12": { "score": "5 – 1", "status": "FINISHED", "source": "manual" },
-    "13": { "score": "0 – 0", "status": "FINISHED", "source": "manual" },
-    "14": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
-    "15": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
-    "16": { "score": "2 – 2", "status": "FINISHED", "source": "manual" },
-    "17": { "score": "3 – 1", "status": "FINISHED", "source": "manual" },
-    "18": { "score": "1 – 4", "status": "FINISHED", "source": "manual" },
-    "19": { "score": "3 – 0", "status": "FINISHED", "source": "manual" },
-    "20": { "score": "3 – 1", "status": "FINISHED", "source": "manual" },
-    "21": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
-    "22": { "score": "4 – 2", "status": "FINISHED", "source": "manual" },
-    "23": { "score": "1 – 0", "status": "FINISHED", "source": "manual" },
-    "24": { "score": "1 – 3", "status": "FINISHED", "source": "manual" },
-    "25": { "score": "1 – 1", "status": "FINISHED", "source": "manual" },
-    "26": { "score": "4 – 1", "status": "FINISHED", "source": "manual" },
-    "27": { "score": "6 – 0", "status": "FINISHED", "source": "manual" },
-    "28": { "score": "1 – 0", "status": "FINISHED", "source": "manual" },
-    "29": { "score": "2 – 0", "status": "FINISHED", "source": "manual" },
-    "30": { "score": "0 – 1", "status": "FINISHED", "source": "manual" },
-    "31": { "score": "3 – 0", "status": "FINISHED", "source": "manual" },
-    "32": { "score": "0 – 1", "status": "FINISHED", "source": "manual" },
-    "33": { "score": "5 – 1", "status": "FINISHED", "source": "manual" }
+    "1": {
+      "score": "2 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "2": {
+      "score": "2 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "3": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "4": {
+      "score": "4 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "5": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "6": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "7": {
+      "score": "0 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "8": {
+      "score": "2 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "9": {
+      "score": "7 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "10": {
+      "score": "2 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "11": {
+      "score": "1 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "12": {
+      "score": "5 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "13": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "14": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "15": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "16": {
+      "score": "2 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "17": {
+      "score": "3 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "18": {
+      "score": "1 – 4",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "19": {
+      "score": "3 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "20": {
+      "score": "3 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "21": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "22": {
+      "score": "4 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "23": {
+      "score": "1 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "24": {
+      "score": "1 – 3",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "25": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "26": {
+      "score": "4 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "27": {
+      "score": "6 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "28": {
+      "score": "1 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "29": {
+      "score": "2 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "30": {
+      "score": "0 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "31": {
+      "score": "3 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "32": {
+      "score": "0 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "33": {
+      "score": "5 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "34": {
+      "score": "2 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "35": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "36": {
+      "score": "0 – 4",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "37": {
+      "score": "4 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "38": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "39": {
+      "score": "2 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "40": {
+      "score": "1 – 3",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "41": {
+      "score": "1 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "42": {
+      "score": "3 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "43": {
+      "score": "3 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "44": {
+      "score": "1 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "45": {
+      "score": "5 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "46": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "47": {
+      "score": "0 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "48": {
+      "score": "1 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "49": {
+      "score": "2 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "50": {
+      "score": "3 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "51": {
+      "score": "0 – 3",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "52": {
+      "score": "4 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "53": {
+      "score": "0 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "54": {
+      "score": "1 – 0",
+      "status": "LIVE",
+      "source": "manual"
+    }
   },
-  "lastUpdated": "2026-06-21T15:49:51Z",
+  "lastUpdated": "2026-06-25T08:30:00Z",
   "note": "Add match scores here. Key = match ID from index.html. Update this file and push to GitHub - scores will auto-load within 30 seconds. SW cache is bypassed for this file."
 }
