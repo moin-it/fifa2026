@@ -15,11 +15,6 @@
       "status": "FINISHED",
       "source": "manual"
     },
-    "4": {
-      "score": "4 – 1",
-      "status": "FINISHED",
-      "source": "manual"
-    },
     "5": {
       "score": "1 – 1",
       "status": "FINISHED",
@@ -35,6 +30,11 @@
       "status": "FINISHED",
       "source": "manual"
     },
+    "4": {
+      "score": "4 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
     "8": {
       "score": "2 – 0",
       "status": "FINISHED",
@@ -45,13 +45,13 @@
       "status": "FINISHED",
       "source": "manual"
     },
-    "10": {
-      "score": "2 – 2",
+    "11": {
+      "score": "1 – 0",
       "status": "FINISHED",
       "source": "manual"
     },
-    "11": {
-      "score": "1 – 0",
+    "10": {
+      "score": "2 – 2",
       "status": "FINISHED",
       "source": "manual"
     },
@@ -60,23 +60,23 @@
       "status": "FINISHED",
       "source": "manual"
     },
-    "13": {
-      "score": "0 – 0",
-      "status": "FINISHED",
-      "source": "manual"
-    },
     "14": {
-      "score": "1 – 1",
-      "status": "FINISHED",
-      "source": "manual"
-    },
-    "15": {
       "score": "1 – 1",
       "status": "FINISHED",
       "source": "manual"
     },
     "16": {
       "score": "2 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "13": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "15": {
+      "score": "1 – 1",
       "status": "FINISHED",
       "source": "manual"
     },
@@ -105,6 +105,11 @@
       "status": "FINISHED",
       "source": "manual"
     },
+    "24": {
+      "score": "1 – 3",
+      "status": "FINISHED",
+      "source": "manual"
+    },
     "22": {
       "score": "4 – 2",
       "status": "FINISHED",
@@ -112,11 +117,6 @@
     },
     "23": {
       "score": "1 – 0",
-      "status": "FINISHED",
-      "source": "manual"
-    },
-    "24": {
-      "score": "1 – 3",
       "status": "FINISHED",
       "source": "manual"
     },
@@ -201,7 +201,7 @@
       "source": "manual"
     },
     "41": {
-      "score": "1 – 0",
+      "score": "2 – 0",
       "status": "FINISHED",
       "source": "manual"
     },
@@ -241,7 +241,7 @@
       "source": "manual"
     },
     "49": {
-      "score": "2 – 1",
+      "score": "3 – 1",
       "status": "FINISHED",
       "source": "manual"
     },
@@ -261,16 +261,106 @@
       "source": "manual"
     },
     "53": {
-      "score": "0 – 2",
+      "score": "0 – 3",
       "status": "FINISHED",
       "source": "manual"
     },
     "54": {
       "score": "1 – 0",
-      "status": "LIVE",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "55": {
+      "score": "0 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "56": {
+      "score": "2 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "57": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "58": {
+      "score": "1 – 3",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "59": {
+      "score": "3 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "60": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "61": {
+      "score": "4 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "62": {
+      "score": "5 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "63": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "64": {
+      "score": "0 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "65": {
+      "score": "1 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "66": {
+      "score": "1 – 5",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "67": {
+      "score": "0 – 2",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "68": {
+      "score": "2 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "69": {
+      "score": "0 – 0",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "70": {
+      "score": "3 – 1",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "71": {
+      "score": "3 – 3",
+      "status": "FINISHED",
+      "source": "manual"
+    },
+    "72": {
+      "score": "1 – 3",
+      "status": "FINISHED",
       "source": "manual"
     }
   },
-  "lastUpdated": "2026-06-25T08:30:00Z",
-  "note": "Add match scores here. Key = match ID from index.html. Update this file and push to GitHub - scores will auto-load within 30 seconds. SW cache is bypassed for this file."
+  "lastUpdated": "2026-06-28T19:12:00Z",
+  "note": "All 72 group stage matches completed. Round of 32 starts June 29. Updated from FIFA World Cup 2026 official results via Yahoo Sports, NBC Sports, and Wikipedia."
 }

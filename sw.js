@@ -1,5 +1,5 @@
 // ⚠️ Version bump করলেই পুরনো ইনস্টল করা PWA আপনাআপনি update হবে
-const CACHE = 'fifa26-v9';
+const CACHE = 'fifa26-v10';
 const ASSETS = [
   '/fifa2026/',
   '/fifa2026/index.html',
